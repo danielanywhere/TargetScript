@@ -1,0 +1,23 @@
+[
+	"{LoopStart(name:rowFiltItem;level:entry)}",
+		"{ConditionStart(name:rowFilterSingle; expression:[DataType] IN(Guid,string))}",
+			"<label class=\"container\">[DisplayName]:",
+			"{IncIndent}",
+				"<input type=\"text\" id=\"txtfilt{Lower([Object:Abbrev3])}{EntryName}\">",
+				"{DecIndent}",
+			"</label>",
+		"{ConditionEnd(name:rowFilterSingle)}",
+		"{ConditionStart(name:rowFilterMult; expression:[DataType] IN(DateTime,decimal,int))}",
+			"<label class=\"container\">[DisplayName] (Min):",
+			"{IncIndent}",
+				"<input type=\"text\" id=\"txtfilt{Lower([Object:Abbrev3])}{EntryName}.Min\">",
+				"{DecIndent}",
+			"</label>",
+			"<label class=\"container\">[DisplayName] (Max):",
+			"{IncIndent}",
+				"<input type=\"text\" id=\"txtfilt{Lower([Object:Abbrev3])}{EntryName}.Max\">",
+				"{DecIndent}",
+			"</label>",
+		"{ConditionEnd(name:rowFilterMult)}",
+	"{LoopEnd(name:rowFiltItem)}"
+]

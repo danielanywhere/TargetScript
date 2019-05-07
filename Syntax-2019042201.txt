@@ -1,0 +1,33 @@
+
+Convert easy-to-read, easy-to-maintain JSON declarations to finished code.
+
+Syntax:
+TargetScript {/project:{Filename}|/createtemplate:{Filename}}
+  [/mode:{ModeName}][/output:{Filename}]
+  [/projectPath:{WorkingPath}]
+  [/tabChar:{T|S}][/tabCount:{Integer}]
+  [/wait]
+  [/?]
+
+  createtemplate - Open a text-based source file and convert it to template.
+  Filename       - Name of the project, source, or output file to open or save.
+  mode           - Set the operating mode.
+  ModeName       - One of the following choices.
+                   InventoryProject - Load the project contents and take
+                     inventory on all of the variable names and commands.
+																			ListNodes - List node placement within the specified
+																			  project.
+                   RenderProject - Render the specified project file. (default)
+  output         - Only valid in the following conditions.
+                     Output filename with /createtemplate.
+                     Report filename with /mode:InventoryProject.
+																					Report filename with /mode:ListNodes.
+  project        - Process a JSON project file.
+  projectPath    - The working directory of this instance. If not
+                   specified here or in the project filename, the current
+                   command prompt path from which the application was
+                   started will be inferred.
+  tabChar        - Tab character to use. 'T' for Tabs / 'S' for Spaces.
+  tabCount       - Count of characters to apply for each tab encountered.
+                   Only useful with space-type tab character.
+  wait           - Wait for a user keypress after the application ends.

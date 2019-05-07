@@ -1,0 +1,13 @@
+[
+	"<!-- Tab Strip -->",
+	"<ul>",
+	"{IncIndent}",
+		"{LoopStart(name:tabStripItem;level:component)}",
+		"{ConditionStart(name:testCondition;expression:{EntryHas(DisplayName)})}",
+			"<li><a href=\"#{Plural({ObjectName})}\"><span>{Plural({ObjectName})}</span></a></li>",
+		"{ConditionEnd(name:testCondition)}",
+		"{LoopEnd(name:tabStripItem)}",
+		"{DecIndent}",
+	"</ul>",
+	"<!-- /Tab Strip -->"
+]

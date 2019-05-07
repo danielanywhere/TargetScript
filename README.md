@@ -1,5 +1,5 @@
 # TargetScript
-Code and script automation system.
+A code and script automation system by Daniel Patterson.
 <hr>
 
 # Introduction

@@ -1,0 +1,11 @@
+[
+	"<label class=\"container\">[DisplayName]",
+	"{IncIndent}",
+		"<input type=\"checkbox\" checked=\"checked\"",
+		"{IncIndent}",
+			"id=\"chkcolctl{Lower([Object:Abbrev3])}{EntryName}\">",
+			"{DecIndent}",
+		"<span class=\"checkmark\"></span>",
+		"{DecIndent}",
+	"</label>"
+]

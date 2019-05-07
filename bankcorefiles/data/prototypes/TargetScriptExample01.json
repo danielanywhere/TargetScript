@@ -1,0 +1,670 @@
+[
+	{
+		"TypeName": "Configuration",
+		"Name": "Configuration",
+		"Definition":
+		[
+			{
+				"Name": "TableFolderName",
+				"Value": "C:\\Temp\\SQL",
+				"Description": "Name of the folder to which rendered tables will be stored."
+			},
+			{
+				"Name": "ComponentPages",
+				"Value": "ComponentCustomer, ComponentAccount, ComponentBranch, ComponentEmployee",
+				"Description": "Active component pages to publish, in the order of presentation."
+			},
+			{
+				"Name": "DatabaseName",
+				"Value": "AnyDatabaseName",
+				"Description": "Backend database name."
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Data / JSON",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Data / SQL Server 2017",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Data / XML",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Desktop / Excel-Driven Development Automation (EDDA)",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Desktop / JSON-Driven Development Automation (JDDA)",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Desktop / Microsoft VisualBasic for Applications (VBA6)",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Desktop / Visual Studio Projects",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Desktop / Windows Presentation Foundation (WPF)",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Programming / C#",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Programming / Class Libraries",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Programming / Dynamic Expression Handling (Runtime User Expressions)",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Programming / Entity Framework",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Programming / MVVM",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Scripting / JavaScript",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Scripting / JQuery",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Web / CSS3",
+				"Description": null
+			},
+			{
+				"Name": "Demonstrate",
+				"Value": "Web / HTML5",
+				"Description": null
+			},
+			{
+				"Name": "Publish",
+				"Value": "Create SQL tables in database of your choice.",
+				"Description": "Publishing steps."
+			},
+			{
+				"Name": "Publish",
+				"Value": "Set Connection properties in App.Config and Web.Config",
+				"Description": "Publishing steps."
+			},
+			{
+				"Name": "PublishConnectionDataSource",
+				"Value": "123.45.67.89",
+				"Description": "Publishing info."
+			},
+			{
+				"Name": "PublishConnectionInitialCatalog",
+				"Value": "AnyDatabaseName",
+				"Description": "Publishing info."
+			},
+			{
+				"Name": "PublishConnectionPassword",
+				"Value": "StrongPassword123?",
+				"Description": "Publishing info."
+			},
+			{
+				"Name": "PublishConnectionUserID",
+				"Value": "ASQLUsername",
+				"Description": "Publishing info."
+			}
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentAccount",
+		"Definition":
+		[
+			{
+				"Name": "Account",
+				"DataType": "object",
+				"DefaultValue": "1,1",
+				"IsData": 0,
+				"Source": "item",
+				"Display": "Account",
+				"Abbrev3": "act",
+				"Description": "Account"
+			},
+			{
+				"Name": "AccountID",
+				"DataType": "int",
+				"DefaultValue": 0,
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Account ID",
+				"Grid": 1,
+				"GridFormat": "000000",
+				"EditFormat": "000000",
+				"Default": 1,
+				"Description": "Local identification of this record."
+			},
+			{
+				"Name": "AccountTicket",
+				"DataType": "Guid",
+				"DefaultValue": "Guid.Empty",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Account Ticket",
+				"Editor": "Text",
+				"ReadOnly": 1,
+				"Description": "Global Identification of this record."
+			},
+			{
+				"Name": "AccountStatus",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Status",
+				"Grid": 1,
+				"Editor": "Text",
+				"Length": 32,
+				"Description": "Status of the account."
+			},
+			{
+				"Name": "BalanceAvailable",
+				"DataType": "decimal",
+				"DefaultValue": 0,
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Balance Available",
+				"Grid": 1,
+				"GridFormat": "Currency",
+				"EditFormat": "Currency",
+				"Description": "Current available balance."
+			},
+			{
+				"Name": "BalancePending",
+				"DataType": "decimal",
+				"DefaultValue": 0,
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Balance Pending",
+				"Grid": 1,
+				"GridFormat": "Currency",
+				"EditFormat": "Currency",
+				"Description": "Balance if all pending transactions are approved."
+			},
+			{
+				"Name": "BranchID",
+				"DataType": "int",
+				"DefaultValue": 0,
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Branch ID",
+				"Editor": "ComboBox",
+				"UISource": "Branch",
+				"UIKey": "BranchID",
+				"UIValue": "BranchID",
+				"UIDisplay": "Name",
+				"UIUpdate": "UpdateBranch(this, Branches, BranchLookupData, \"BranchID\")",
+				"Description": "Branch at which this account is domiciled."
+			},
+			{
+				"Name": "BranchName",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 0,
+				"Source": "get SQL",
+				"Table": "bnkBranch",
+				"Select": "Name",
+				"Alias": "Name",
+				"KeyName": "BranchID",
+				"KeyValue": "BranchID",
+				"Display": "Branch Name",
+				"Grid": 1,
+				"Length": 32,
+				"Description": "Name of the domicile branch."
+			},
+			{
+				"Name": "CustomerID",
+				"DataType": "int",
+				"DefaultValue": 0,
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Customer ID",
+				"Editor": "ComboBox",
+				"UISource": "Customer",
+				"UIKey": "CustomerID",
+				"UIValue": "CustomerID",
+				"UIDisplay": "Name",
+				"UIUpdate": "UpdateCustomer(this, CustomerLookupData, Customers, \"CustomerID\")",
+				"Description": "Customer to which this account belongs."
+			},
+			{
+				"Name": "CustomerName",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 0,
+				"Source": "get SQL",
+				"Table": "bnkCustomer",
+				"Select": "Name",
+				"Alias": "Name",
+				"KeyName": "CustomerID",
+				"KeyValue": "CustomerID",
+				"Display": "Customer Name",
+				"Grid": 1,
+				"Description": "Name of owner customer."
+			},
+			{
+				"Name": "DateClosed",
+				"DataType": "DateTime",
+				"DefaultValue": "DateTime.MinValue",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Date Closed",
+				"Grid": 1,
+				"GridFormat": "yyyyMMdd",
+				"Editor": "DatePicker",
+				"EditFormat": "MM/dd/yyyy",
+				"Description": "Date upon which the account was closed."
+			},
+			{
+				"Name": "DateLastActivity",
+				"DataType": "DateTime",
+				"DefaultValue": "DateTime.MinValue",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Date Last Activity",
+				"Grid": 1,
+				"GridFormat": "yyyyMMdd",
+				"Editor": "DatePicker",
+				"EditFormat": "MM/dd/yyyy",
+				"Description": "Date upon which the account experienced its last known activity."
+			},
+			{
+				"Name": "DateOpened",
+				"DataType": "DateTime",
+				"DefaultValue": "DateTime.MinValue",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Date Opened",
+				"Grid": 1,
+				"GridFormat": "yyyyMMdd",
+				"Editor": "DatePicker",
+				"EditFormat": "MM/dd/yyyy",
+				"Description": "Date upon which the account was opened."
+			},
+			{
+				"Name": "EmployeeID",
+				"DataType": "int",
+				"DefaultValue": 0,
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Employee ID",
+				"Editor": "ComboBox",
+				"UISource": "Employee",
+				"UIKey": "EmployeeID",
+				"UIValue": "EmployeeID",
+				"UIDisplay": "DisplayName",
+				"UIUpdate": "UpdateEmployee(this, Employees, EmployeeLookupData, \"EmployeeID\")",
+				"Description": "Employee assigned to this account."
+			},
+			{
+				"Name": "EmployeeName",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 0,
+				"Source": "get SQL",
+				"Table": "bnkEmployee",
+				"Select": "IIF(LEN(FirstName) > 0 AND LEN(LastName) > 0, FirstName + \" \" + LastName, FirstName + LastName)",
+				"Alias": "EmployeeName",
+				"KeyName": "EmployeeID",
+				"KeyValue": "EmployeeID",
+				"Display": "Employee Name",
+				"Grid": 1,
+				"Description": "Name of the responsible employee."
+			}
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentBranch",
+		"Definition":
+		[
+			{
+				"Name": "Branch",
+				"DataType": "object",
+				"DefaultValue": "1,1",
+				"IsData": "0",
+				"Source": "item",
+				"Display": "Branch",
+				"Abbrev3": "brc",
+				"Description": "Branch"
+			},
+			{
+				"Name": "BranchID",
+				"DataType": "int",
+				"DefaultValue": "0",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "ID",
+				"Description": "Local identification of this record."
+			},
+			{
+				"Name": "BranchTicket",
+				"DataType": "Guid",
+				"DefaultValue": "Guid.Empty",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Ticket",
+				"Editor": "Text",
+				"ReadOnly": 1,
+				"Description": "Global identification of this record."
+			},
+			{
+				"Name": "Name",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Name",
+				"Grid": 1,
+				"Editor": "Text",
+				"Default": 1,
+				"Length": 32,
+				"Description": "Name of the branch."
+			},
+			{
+				"Name": "Address",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Address",
+				"Editor": "Text",
+				"Length": 255,
+				"Description": "Branch address."
+			},
+			{
+				"Name": "City",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "City",
+				"Grid": 1,
+				"Editor": "Text",
+				"Length": 32,
+				"Description": "Branch city."
+			},
+			{
+				"Name": "State",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "State",
+				"Editor": "Text",
+				"Length": 2,
+				"Description": "Branch state."
+			},
+			{
+				"Name": "ZipCode",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Zip Code",
+				"Editor": "Text",
+				"Length": 16,
+				"Description": "Branch zip code."
+			}
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentCustomer",
+		"Definition":
+		[
+			{
+				"Name": "Customer",
+				"DataType": "object",
+				"DefaultValue": "1,1",
+				"IsData": 0,
+				"Source": "item",
+				"Display": "Customer",
+				"Abbrev3": "cst",
+				"Description": "Customer"
+			},
+			{
+				"Name": "CustomerID",
+				"DataType": "int",
+				"DefaultValue": 0,
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Customer ID",
+				"Description": "Local identification of this record."
+			},
+			{
+				"Name": "CustomerTicket",
+				"DataType": "Guid",
+				"DefaultValue": "Guid.Empty",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Customer Ticket",
+				"Editor": "Text",
+				"ReadOnly": 1,
+				"Description": "Global identification of this record."
+			},
+			{
+				"Name": "Name",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Name",
+				"Grid": 1,
+				"Editor": "Text",
+				"Default": 1,
+				"Length": 32,
+				"Description": "Customer name."
+			},
+			{
+				"Name": "Address",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Address",
+				"Grid": 1,
+				"Editor": "Text",
+				"Length": 255,
+				"Description": "Customer address."
+			},
+			{
+				"Name": "City",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "City",
+				"Grid": 1,
+				"Editor": "Text",
+				"Length": 32,
+				"Description": "Customer city."
+			},
+			{
+				"Name": "State",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "State",
+				"Editor": "Text",
+				"Length": 2,
+				"Description": "Customer tax idenstficaston number."
+			},
+			{
+				"Name": "ZipCode",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Zip Code",
+				"Grid": 1,
+				"Editor": "Text",
+				"Length": 16,
+				"Description": "Customer zip code."
+			},
+			{
+				"Name": "TIN",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "TIN",
+				"Editor": "Text",
+				"Length": 12,
+				"Description": "Customer tax identification number."
+			}
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentEmployee",
+		"Definition":
+		[
+			{
+				"Name": "Employee",
+				"DataType": "object",
+				"DefaultValue": "1,1",
+				"IsData": "0",
+				"Source": "item",
+				"Display": "Employee",
+				"Abbrev3": "emp",
+				"Description": "Employee"
+			},
+			{
+				"Name": "DisplayName",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": "0",
+				"Source": "get override",
+				"Override": "get { return (FirstName.Length > 0 && LastName.Length > 0 ? FirstName + \" \" + LastName : FirstName + LastName); }",
+				"Display": "Display Name",
+				"Grid": 1,
+				"Default": 1,
+				"Description": "Display Name of the employee."
+			},
+			{
+				"Name": "EmployeeID",
+				"DataType": "int",
+				"DefaultValue": "0",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "ID",
+				"Description": "Local identification of this record."
+			},
+			{
+				"Name": "EmployeeTicket",
+				"DataType": "Guid",
+				"DefaultValue": "Guid.Empty",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Ticket",
+				"Editor": "Text",
+				"ReadOnly": 1,
+				"Description": "Global identification of this record."
+			},
+			{
+				"Name": "FirstName",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "First Name",
+				"Editor": "Text",
+				"UIUpdate": "UpdateDisplayName(this, FirstName, LastName)",
+				"Length": 32,
+				"Description": "Employee first name."
+			},
+			{
+				"Name": "LastName",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Last Name",
+				"Editor": "Text",
+				"UIUpdate": "UpdateDisplayName(this, FirstName, LastName)",
+				"Length": 32,
+				"Description": "Employee last name."
+			},
+			{
+				"Name": "DateStarted",
+				"DataType": "DateTime",
+				"DefaultValue": "DateTime.MinValue",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Date Started",
+				"Grid": 1,
+				"GridFormat": "yyyyMMdd",
+				"Editor": "DatePicker",
+				"EditFormat": "MM/dd/yyyy",
+				"Description": "Date upon which the employee started."
+			},
+			{
+				"Name": "DateEnded",
+				"DataType": "DateTime",
+				"DefaultValue": "DateTime.MinValue",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Date Ended",
+				"Grid": 1,
+				"GridFormat": "yyyyMMdd",
+				"Editor": "DatePicker",
+				"EditFormat": "MM/dd/yyyy",
+				"Description": "Date upon which the employee left organization."
+			},
+			{
+				"Name": "Title",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "Title",
+				"Grid": 1,
+				"Editor": "Text",
+				"Length": 255,
+				"Description": "Employee title."
+			},
+			{
+				"Name": "TIN",
+				"DataType": "string",
+				"DefaultValue": "\"\"",
+				"IsData": 1,
+				"Source": "get, set",
+				"Display": "TIN",
+				"Length": 16,
+				"Description": "Employee tax identification number."
+			}
+		]
+	}
+]

@@ -1,0 +1,56 @@
+[
+	{
+		"TypeName": "Template",
+		"Name": "HTMLSinglePageApp",
+		"Definition":
+		[
+			"{Include(html/Header.json)}",
+			"{Include(html/BodyPrefix.json)}",
+			"{Include(html/Body.json)}",
+			"{Include(html/BodySuffix.json)}",
+			"{Include(html/Footer.json)}",
+			"{SaveFile(../output/spa/Index.html)}",
+			"{ClearRenderedContent()}"
+		]
+	},
+	{
+		"TypeName": "Configuration",
+		"Name": "Config",
+		"Definition":
+		[
+			"{Include(config/ConfigData.json)}"
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentAccount",
+		"Definition":
+		[
+			"{Include(config/ComponentAccount.json)}"
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentBranch",
+		"Definition":
+		[
+			"{Include(config/ComponentBranch.json)}"
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentCustomer",
+		"Definition":
+		[
+			"{Include(config/ComponentCustomer.json)}"
+		]
+	},
+	{
+		"TypeName": "ComponentPage",
+		"Name": "ComponentEmployee",
+		"Definition":
+		[
+			"{Include(config/ComponentEmployee.json)}"
+		]
+	}
+]

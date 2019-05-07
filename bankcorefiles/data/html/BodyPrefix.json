@@ -1,0 +1,6 @@
+[
+	"<body>",
+	"{IncIndent}",
+		"<div id=\"tabs\">",
+		"{IncIndent}"
+]

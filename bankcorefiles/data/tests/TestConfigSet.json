@@ -1,0 +1,18 @@
+[
+	{
+		"TypeName": "Template",
+		"Name": "TestConfigSet",
+		"Definition":
+		[
+			"{ConfigSet(ComponentPages:{ComponentPagesSorted})}"
+		]
+	},
+	{
+		"TypeName": "Configuration",
+		"Name": "Config",
+		"Definition":
+		[
+			"{Include(../config/ConfigData.json)}"
+		]
+	}
+]

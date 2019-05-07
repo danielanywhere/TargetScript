@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActionNodeLineLoopPattern" xml:space="preserve">
+    <value>(?i:(?s:(?&lt;loop&gt;\{(?&lt;type&gt;(Loop|Condition|Config))(?&lt;side&gt;(Start|End|Set))\s*\((?&lt;params&gt;.*)\s*\)\s*\})))</value>
+    <comment>Regular expression pattern for enumerating loop and condition boundaries on a single line.</comment>
+  </data>
+  <data name="ActionNodeResolveVariablePattern" xml:space="preserve">
+    <value>((?&lt;content&gt;\[.*?\]))|((?&lt;content&gt;\{.*?\}))</value>
+    <comment>Regular expression pattern for listing the variable keywords in the line.</comment>
+  </data>
+  <data name="AttributeKeywordPattern" xml:space="preserve">
+    <value>(?i:(?&lt;keyword&gt;\[(?&lt;content&gt;[^\]]+)\])|(AND|OR|NOT|XOR)|(?&lt;content&gt;[a-z]+[0-9a-z-_\.]*))</value>
+    <comment>Regular expression pattern for partitioning keywords in the Attribute Catalog.</comment>
+  </data>
+  <data name="CommandEvalPattern" xml:space="preserve">
+    <value>(?i:(?&lt;command&gt;\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)\((?&lt;params&gt;[0-9a-z-_\.\:\;,\\/\*\+]*)\)\}))</value>
+    <comment>Regular expression for evaluating inline commands.</comment>
+  </data>
+  <data name="CommandSpecialPattern" xml:space="preserve">
+    <value>(?i:(?&lt;command&gt;\{(?&lt;name&gt;IIF)\((?&lt;params&gt;.*?)\)\}))</value>
+    <comment>Regular expression for evaluating special commands.</comment>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Copyright (c) 2018, 2019. Daniel Patterson, MCSD (danielanywhere)</value>
+    <comment>All content copyright 2018, 2019. Daniel Patterson, MCSD (danielanywhere)</comment>
+  </data>
+  <data name="ExpressionEvalStringPattern" xml:space="preserve">
+    <value>(?&lt;key&gt;\[[^\]]+\])|(?&lt;key&gt;\{[^\}]+\})|(?&lt;key&gt;\".*(?&lt;!\\)\")|(AND|OR|NOT|XOR)|(?&lt;key&gt;\w+)</value>
+    <comment>Regular expression for retrieving string-based names and values.</comment>
+  </data>
+  <data name="InnerQuotesOnlyPattern" xml:space="preserve">
+    <value>(?&lt;content&gt;\".*?(?&lt;!\\)\")</value>
+    <comment>Regular expression pattern for finding only quotes.</comment>
+  </data>
+  <data name="InnerVariablesAllPattern" xml:space="preserve">
+    <value>(?i:(?&lt;content&gt;\{[^\{\[\(\"\}]+\})|(?&lt;content&gt;\[[^\{\[\(\"\]]+\])|(?&lt;content&gt;\".*?(?&lt;!\\)\")|(AND|OR|NOT|XOR)|(?&lt;content&gt;\w+))</value>
+    <comment>Regular expression containing all inner variable patterns.</comment>
+  </data>
+  <data name="InnerVariablesNoQuotePattern" xml:space="preserve">
+    <value>(?i:(?&lt;content&gt;(?&lt;!\{)\{[a-z]+[0-9a-z-_]*\}(?!\}))|(?&lt;content&gt;(?&lt;!\[)\[[a-z]+[0-9a-z-_]*\](?!\]))|(AND|OR|NOT|XOR)|(?&lt;!(\{|\[)[0-9a-z-_]*)(?&lt;content&gt;[a-z]+[a-z0-9-_]*)(?![a-z0-9-_]*\s*\()(?![0-9a-z-_]*(\]|\})))</value>
+    <comment>Regular expression for finding all patterns except quotes.</comment>
+  </data>
+  <data name="InnerVariablesOnlyPattern" xml:space="preserve">
+    <value>(?&lt;content&gt;\{[^\{\[\(\"\}]+\})|(?&lt;content&gt;\[[^\{\[\(\"\]]+\])</value>
+    <comment>Regular expression pattern to return only the innermost variables on the string.</comment>
+  </data>
+  <data name="JsonTemplateCKeywordPattern" xml:space="preserve">
+    <value>(?i:(?&lt;keyword&gt;\{(?&lt;content&gt;[a-z]+[0-9a-z-_]*)\}))</value>
+    <comment>Regular expression for finding curly-braced keywords while creating a JSON template.</comment>
+  </data>
+  <data name="JsonTemplateCKeywordReplacement" xml:space="preserve">
+    <value>{{${content}}}</value>
+    <comment>Replacement pattern for curly braced values during template conversion.</comment>
+  </data>
+  <data name="JsonTemplateSKeywordPattern" xml:space="preserve">
+    <value>(?i:(?&lt;keyword&gt;\[(?&lt;content&gt;[a-z]+[0-9a-z-_]*)\]))</value>
+    <comment>Regular expression for finding square-braced keywords while creating a JSON template.</comment>
+  </data>
+  <data name="JsonTemplateSKeywordReplacement" xml:space="preserve">
+    <value>[[${content}]]</value>
+    <comment>Replacement pattern for square braced values during template conversion.</comment>
+  </data>
+  <data name="JsonTemplateSplitPattern" xml:space="preserve">
+    <value>(?i:(?s:(?&lt;object&gt;\{\s*\"TypeName\"\s*\:\s*\"(?&lt;type&gt;[^\"]+)\".*?((?=,\s*\{\s*\"TypeName\"\s*\:)|(?=\s*\]\s*$)))))</value>
+    <comment>Regular expression pattern for splitting template instances.</comment>
+  </data>
+  <data name="PostProcessingIncDecPattern" xml:space="preserve">
+    <value>(?i:(?&lt;content&gt;\{(?&lt;command&gt;(inc|dec)indent)\s*\(\s*\)\s*\}))</value>
+    <comment>Regular expression for selecting IncIndent, DecIndent commands.</comment>
+  </data>
+  <data name="PostProcessingTabPattern" xml:space="preserve">
+    <value>(?i:(?&lt;content&gt;\{(?&lt;command&gt;tab)\s*\(\s*(?&lt;params&gt;\d+)\s*\)\s*\}))</value>
+    <comment>Regular expression for finding the tab command.</comment>
+  </data>
+  <data name="PostProcessingUnescapeBracePattern" xml:space="preserve">
+    <value>(?i:\{(?&lt;variable&gt;\{[a-z]+[0-9a-z-_]*\})\}|\[(?&lt;variable&gt;\[[a-z]+[0-9a-z-_]*\])\])</value>
+    <comment>Regular expression for unescaping double braces.</comment>
+  </data>
+  <data name="PostProcessingUnescapeBraceReplacement" xml:space="preserve">
+    <value>${variable}</value>
+    <comment>Replacement pattern for unescaping double braces.</comment>
+  </data>
+  <data name="Syntax" xml:space="preserve">
+    <value>Convert easy-to-read, easy-to-maintain JSON declarations to finished code.
+
+Syntax:
+TargetScript /project:{Filename}
+  [/projectPath:{WorkingPath}]
+  [/report:{Filename}]
+  [/wait]
+
+  projectPath - The working directory of this instance. If not
+                specified here or in the project filename, the current
+                command prompt path from which the application was
+                started will be inferred.
+  wait        - Wait for a user keypress after the application ends.</value>
+    <comment>Application Syntax</comment>
+  </data>
+  <data name="ToolsCommandsPattern" xml:space="preserve">
+    <value>(?&lt;content&gt;\{(?&lt;command&gt;\w+)\s*\(\s*(?&lt;params&gt;[^\{\[\(\"\)]+)\s*\)\s*\})</value>
+    <comment>Regular expression pattern to return only commands with fully resolved variable patterns.</comment>
+  </data>
+  <data name="ToolsEscapePattern" xml:space="preserve">
+    <value>(?&lt;char&gt;[\!\@\#\$\%\^\&amp;\*\(\)\+\=\\\|\{\}\[\]\?\"\&lt;\&gt;\.])</value>
+    <comment>Regular expression pattern for matching characters that need to be escaped.</comment>
+  </data>
+  <data name="ToolsEscapeReplacement" xml:space="preserve">
+    <value>\${char}</value>
+    <comment>Replacement pattern for escaping matching characters.</comment>
+  </data>
+  <data name="ToolsReduceCommandInPattern" xml:space="preserve">
+    <value>(?i:(?&lt;subject&gt;[^\s]+)\s+IN\s*\((?&lt;params&gt;.*?)\))</value>
+    <comment>Regular expression pattern for finding the IN(x) command.</comment>
+  </data>
+  <data name="ToolsReduceCommandParamPattern" xml:space="preserve">
+    <value>(?i:\s*(?&lt;param&gt;[^,]+)\s*(,|$))</value>
+    <comment>Regular expression for splitting the parameters of a command.</comment>
+  </data>
+  <data name="ToolsStripBracesPattern" xml:space="preserve">
+    <value>^\s*(\[(?&lt;content&gt;.*)\])|(\{(?&lt;content&gt;.*)\})|(\((?&lt;content&gt;.*)\))|(\"(?&lt;content&gt;.*)\")\s*$</value>
+    <comment>Regular expression for finding value enclosed in braces.</comment>
+  </data>
+  <data name="ToolsStripBracesReplacement" xml:space="preserve">
+    <value>${content}</value>
+    <comment>Replacement pattern for stripping braces around a value.</comment>
+  </data>
+</root>

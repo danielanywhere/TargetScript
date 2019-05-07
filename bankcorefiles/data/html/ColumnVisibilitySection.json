@@ -1,0 +1,17 @@
+[
+	"<!-- {ObjectName} Column Visibility -->",
+	"<div class=\"tabAccordian\">",
+	"{IncIndent}",
+		"<h3>Column Settings</h3>",
+		"<div id=\"colctl{Plural({ObjectName})}\" class=\"columnVisibility\">",
+		"{IncIndent}",
+			"<div class=\"head\">Column Visibility</div>",
+			"{LoopStart(name:colVisItem;level:entry)}",
+				"{Include(ColumnVisibilityItems.json)}",
+			"{LoopEnd(name:colVisItem)}",
+			"{DecIndent}",
+		"</div>",
+		"{DecIndent}",
+	"</div>",
+	"<!-- /{ObjectName} Column Visibility -->"
+]

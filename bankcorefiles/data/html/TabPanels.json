@@ -1,0 +1,14 @@
+[
+	"{LoopStart(name:tabPanel;level:component)}",
+		"<!-- {Plural({ObjectName})} Panel. -->",
+		"<div id=\"{Plural({ObjectName})}\">",
+		"{IncIndent}",
+			"<p class=\"top0\">Select {AAn({ObjectName})} {Lower({ObjectName})} to edit or view.</p>",
+			"<div id=\"grd{Plural({ObjectName})}\" class=\"jsGrid\"></div>",
+			"{Include(RowFilterSection.json)}",
+			"{Include(ColumnVisibilitySection.json)}",
+			"{DecIndent}",
+		"</div>",
+		"<!-- /{Plural({ObjectName})} Panel. -->",
+	"{LoopEnd(name:tabPanel)}"
+]
