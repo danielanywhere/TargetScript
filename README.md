@@ -1,6 +1,7 @@
 # TargetScript
 Code and script automation system.
 <hr>
+
 # Introduction
 TargetScript is all about the concept of code and script automation. Instead of writing code straight out, this system allows you to describe the basics of what the code is, then lets the code write and maintain itself from closely organized modular chunks based upon those descriptions.
 
