@@ -3,7 +3,7 @@
 	"<ul>",
 	"{IncIndent}",
 		"{LoopStart(name:tabStripItem;level:component)}",
-		"{ConditionStart(name:testCondition;expression:{EntryHas(DisplayName)})}",
+		"{ConditionStart(name:testCondition;expression:{ElementHas(DisplayName)})}",
 			"<li><a href=\"#{Plural({ObjectName})}\"><span>{Plural({ObjectName})}</span></a></li>",
 		"{ConditionEnd(name:testCondition)}",
 		"{LoopEnd(name:tabStripItem)}",

@@ -3,7 +3,7 @@
 	"{IncIndent}",
 		"<input type=\"checkbox\" checked=\"checked\"",
 		"{IncIndent}",
-			"id=\"chkcolctl{Lower([Object:Abbrev3])}{EntryName}\">",
+			"id=\"chkcolctl{Lower([Object:Abbrev3])}{ElementName}\">",
 			"{DecIndent}",
 		"<span class=\"checkmark\"></span>",
 		"{DecIndent}",

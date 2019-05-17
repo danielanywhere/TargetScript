@@ -1,0 +1,22 @@
+[
+	{
+		"TypeName": "Template",
+		"Name": "TestContinue",
+		"Definition":
+		[
+			"This is information from the first line {Continue()}",
+			"and the second line.{Continue()}",
+			"{SaveFile(output/TestContinueOutput.txt)}",
+			"{LoopStart(name:ok)}",
+			"{LoopEnd(name:ok)}"
+		]
+	},
+	{
+		"TypeName": "Configuration",
+		"Name": "Config",
+		"Definition":
+		[
+			"{Include(../config/ConfigData.json)}"
+		]
+	}
+]

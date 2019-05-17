@@ -74,216 +74,6 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	GetAncestorNodeWithParam																							*
-		//*-----------------------------------------------------------------------*
-		/// <summary>
-		/// Return the first node up the chain that has a matching parameter value.
-		/// </summary>
-		/// <param name="list">
-		/// Reference to the collection of existing nodes to analyze.
-		/// </param>
-		/// <param name="paramName">
-		/// Name of the parameter to search for.
-		/// </param>
-		/// <param name="paramIndex">
-		/// Enumeration index of the named parameter.
-		/// </param>
-		/// <param name="paramValue">
-		/// Value of the parameter to match.
-		/// </param>
-		/// <returns>
-		/// Reference to ancestor node, if found. Otherwise, null.
-		/// </returns>
-		public static ActionNodeItem GetAncestorNodeWithParam(
-			ActionNodeCollection list, string paramName,
-			int paramIndex, string paramValue)
-		{
-			string attributeValue = "";
-			ActionNodeItem parent = null;
-			ActionNodeItem result = null;
-			string vLower = "";
-
-			if(list != null && list.mParent != null && paramName?.Length > 0)
-			{
-				vLower = paramValue.ToLower();
-				parent = list.mParent;
-				if(parent.Attributes.Count(x => x.Name.ToLower() == paramName) >
-					paramIndex)
-				{
-					//	There are enough params in this item.
-					attributeValue =
-						parent.Attributes.GetValue(paramName, paramIndex).ToLower();
-					if(attributeValue == vLower)
-					{
-						result = parent;
-					}
-				}
-				if(result == null && parent.Parent != null)
-				{
-					result = GetAncestorNodeWithParam(parent.Parent,
-						paramName, paramIndex, paramValue);
-				}
-			}
-			return result;
-		}
-		//*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*
-		/// <summary>
-		/// Return the first node up the chain that has a matching parameter value.
-		/// </summary>
-		/// <param name="list">
-		/// Reference to the collection of existing nodes to analyze.
-		/// </param>
-		/// <param name="paramName">
-		/// Name of the parameter to search for.
-		/// </param>
-		/// <param name="paramValue">
-		/// Value of the parameter to match.
-		/// </param>
-		/// <returns>
-		/// Reference to ancestor node, if found. Otherwise, null.
-		/// </returns>
-		public static ActionNodeItem GetAncestorNodeWithParam(
-			ActionNodeCollection list, string paramName,
-			string paramValue)
-		{
-			string attributeValue = "";
-			ActionNodeItem parent = null;
-			ActionNodeItem result = null;
-			string vLower = "";
-
-			if(list != null && list.mParent != null && paramName?.Length > 0)
-			{
-				vLower = paramValue.ToLower();
-				parent = list.mParent;
-				if(parent.Attributes.Count(x => x.Name.ToLower() == paramName) > 0)
-				{
-					//	There are enough params in this item.
-					attributeValue =
-						parent.Attributes.GetValue(paramName).ToLower();
-					if(attributeValue == vLower)
-					{
-						result = parent;
-					}
-				}
-				if(result == null && parent.Parent != null)
-				{
-					result = GetAncestorNodeWithParam(parent.Parent,
-						paramName, paramValue);
-				}
-			}
-			return result;
-		}
-		//*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*
-		/// <summary>
-		/// Return the first node up the chain that has a matching parameter value.
-		/// </summary>
-		/// <param name="list">
-		/// Reference to the collection of existing nodes to analyze.
-		/// </param>
-		/// <param name="paramList">
-		/// List of parameter Name:Value entries to match.
-		/// </param>
-		/// <returns>
-		/// Reference to ancestor node, if found. Otherwise, null.
-		/// </returns>
-		public static ActionNodeItem GetAncestorNodeWithParam(
-			ActionNodeCollection list, string paramList)
-		{
-			bool bContinue = true;
-			ActionNodeItem parent = null;
-			string[][] pArray = null;
-			ActionNodeItem result = null;
-
-			if(list != null && list.mParent != null && paramList?.Length > 0)
-			{
-				bContinue = true;
-				parent = list.mParent;
-				pArray = Tools.GetParameterNameValueList(paramList);
-				foreach(string[] namevalue in pArray)
-				{
-					bContinue = false;
-					if(namevalue[0].Length == 0)
-					{
-						bContinue = true;
-					}
-					else if(parent.Attributes.
-						Exists(x => x.Name.ToLower() == namevalue[0].ToLower()))
-					{
-						bContinue = true;
-					}
-					if(!bContinue)
-					{
-						break;
-					}
-				}
-				if(bContinue)
-				{
-					//	The list matches in this node.
-					result = parent;
-				}
-				if(result == null && parent.Parent != null)
-				{
-					result = GetAncestorNodeWithParam(parent.Parent, pArray);
-				}
-			}
-			return result;
-		}
-		//*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*
-		/// <summary>
-		/// Return the first node up the chain that has a matching parameter value.
-		/// </summary>
-		/// <param name="list">
-		/// Reference to the collection of existing nodes to analyze.
-		/// </param>
-		/// <param name="paramArray">
-		/// Array of parameter Name:Value entries to match.
-		/// </param>
-		/// <returns>
-		/// Reference to ancestor node, if found. Otherwise, null.
-		/// </returns>
-		public static ActionNodeItem GetAncestorNodeWithParam(
-			ActionNodeCollection list, string[][] paramArray)
-		{
-			bool bContinue = true;
-			ActionNodeItem parent = null;
-			ActionNodeItem result = null;
-
-			if(list != null && list.mParent != null && paramArray?.Length > 0)
-			{
-				bContinue = true;
-				parent = list.mParent;
-				foreach(string[] namevalue in paramArray)
-				{
-					bContinue = false;
-					if(namevalue[0].Length == 0)
-					{
-						bContinue = true;
-					}
-					else if(parent.Attributes.
-						Exists(x => x.Name.ToLower() == namevalue[0].ToLower()))
-					{
-						bContinue = true;
-					}
-					if(!bContinue)
-					{
-						break;
-					}
-				}
-				if(bContinue)
-				{
-					//	The list matches in this node.
-					result = parent;
-				}
-				if(result == null && parent.Parent != null)
-				{
-					result = GetAncestorNodeWithParam(parent.Parent, paramArray);
-				}
-			}
-			return result;
-		}
-		//*-----------------------------------------------------------------------*
-
-		//*-----------------------------------------------------------------------*
 		//*	Parent																																*
 		//*-----------------------------------------------------------------------*
 		private ActionNodeItem mParent = null;
@@ -346,31 +136,34 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 		//*	Attributes																														*
 		//*-----------------------------------------------------------------------*
-		private AttributeCollection mAttributes = new AttributeCollection();
 		/// <summary>
 		/// Get a reference to the collection of attribute values on this node.
 		/// </summary>
 		public AttributeCollection Attributes
 		{
-			get { return mAttributes; }
+			get
+			{
+				AttributeCollection result = null;
+				if(mExpression != null)
+				{
+					result = mExpression.Attributes;
+				}
+				return result;
+			}
 		}
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	HasLineEnd																														*
+		//*	Expression																														*
 		//*-----------------------------------------------------------------------*
-		private bool mHasLineEnd = true;
+		private ExpressionTree mExpression = null;
 		/// <summary>
-		/// Get/Set a value indicating whether this item has an implicit line end
-		/// when outputting to text.
+		/// Get/Set a reference to the pre-partitioned expression for this node.
 		/// </summary>
-		/// <remarks>
-		/// This value is true by default.
-		/// </remarks>
-		public bool HasLineEnd
+		public ExpressionTree Expression
 		{
-			get { return mHasLineEnd; }
-			set { mHasLineEnd = value; }
+			get { return mExpression; }
+			set { mExpression = value; }
 		}
 		//*-----------------------------------------------------------------------*
 
@@ -434,14 +227,18 @@ namespace TargetScript
 		/// </summary>
 		private ComponentItem mComponent = null;
 		/// <summary>
-		/// Stack of component / entry follower settings.
+		/// Stack of component / element follower settings.
 		/// </summary>
-		private Stack<ComponentEntryFollower> mComponentEntryStack =
-			new Stack<ComponentEntryFollower>();
+		private Stack<ComponentElementFollower> mComponentElementStack =
+			new Stack<ComponentElementFollower>();
 		/// <summary>
-		/// Selected collection of entry values.
+		/// Selected collection of metadata entry values.
 		/// </summary>
-		private AttributeCollection mEntryCollection = null;
+		private AttributeCollection mElement = null;
+		/// <summary>
+		/// Expression element handler for all expressions simultaneously.
+		/// </summary>
+		private ExpressionEventBoard mEventBoard = null;
 		/// <summary>
 		/// Internal indent tracking.
 		/// </summary>
@@ -450,42 +247,6 @@ namespace TargetScript
 		///	Current node under test.
 		/// </summary>
 		private ActionNodeItem mNode = null;
-
-		//*-----------------------------------------------------------------------*
-		//*	AddParameters																													*
-		//*-----------------------------------------------------------------------*
-		/// <summary>
-		/// Set any parameters for this item.
-		/// </summary>
-		/// <param name="match">
-		/// Regular expression match containing the values to add.
-		/// </param>
-		/// <param name="node">
-		/// Currently selected template node.
-		/// </param>
-		/// <param name="paramGroupName">
-		/// Name of the match group to process.
-		/// </param>
-		private static void AddParameters(Match match, ActionNodeItem node,
-			string paramGroupName)
-		{
-			string[][] pItems = new string[0][];
-			string value = "";
-
-			if(match != null && node != null && paramGroupName?.Length > 0)
-			{
-				value = Tools.GetValue(match, paramGroupName);
-				pItems = Tools.GetParameterNameValueList(value);
-				foreach(string[] namevalue in pItems)
-				{
-					if(namevalue[0].Length > 0)
-					{
-						node.Attributes.Add(namevalue[0], namevalue[1]);
-					}
-				}
-			}
-		}
-		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
 		//*	AnalyzeCommands																												*
@@ -524,7 +285,7 @@ namespace TargetScript
 						statement = Tools.GetValue(match, "command");
 						command = Tools.GetValue(match, "name");
 						param = Tools.GetValue(match, "params");
-						mEntryCollection.Add(command + "()", "");
+						mElement.Add(command + "()", "");
 						AnalyzeInnerVariables(param);
 						expressionText = Tools.ReplaceFirst(expressionText, statement,
 							Tools.RemoveBraces(statement,
@@ -562,6 +323,11 @@ namespace TargetScript
 			string nameb = "";
 			string value = "";
 
+			//if(expression.IndexOf("bnk") > -1 &&
+			//	expression.IndexOf("{ObjectName}") > -1)
+			//{
+			//	Console.WriteLine("Break here...");
+			//}
 			if(expression?.Length > 0)
 			{
 				//	Convert config command expression.
@@ -615,7 +381,7 @@ namespace TargetScript
 								case BraceEnumType.Square:
 									//	Curly braces require config-style lookup.
 									//	Square braces require metadata field lookup.
-									mEntryCollection.Add(name, "");
+									mElement.Add(name, "");
 									break;
 							}
 							result.SetValue(nameb, value);
@@ -657,7 +423,7 @@ namespace TargetScript
 		/// Value indicating whether the operation was a success.
 		/// </returns>
 		/// <remarks>
-		/// All found elements are added to the mEntryCollection field, where they
+		/// All found elements are added to the mElement field, where they
 		/// can be aggregated later.
 		/// </remarks>
 		private bool AnalyzeNodes(ActionNodeCollection nodes)
@@ -689,35 +455,35 @@ namespace TargetScript
 						case "condition":
 							//	{ConditionStart(Name:Value; ...)}
 							expressionText = node.Attributes.GetValue("expression");
-							mEntryCollection.Add("ConditionStart()", nName);
+							mElement.Add("ConditionStart()", nName);
 							AnalyzeInnerVariables(expressionText);
 							if(node.Nodes.Count > 0)
 							{
-								mEntryCollection.Add(">", "");
+								mElement.Add(">", "");
 								result = AnalyzeNodes(node.Nodes);
-								mEntryCollection.Add("<", "");
+								mElement.Add("<", "");
 							}
-							mEntryCollection.Add("ConditionEnd()", nName);
+							mElement.Add("ConditionEnd()", nName);
 							break;
 						case "config":
-							//	{ConfigSet(Name:Value)}
+							//	{SetConfig(Name:Value)}
 							//	Set the specified configuration entry name to the supplied
 							//	value.
-							mEntryCollection.Add("ConfigSet()", nName);
+							mElement.Add("SetConfig()", nName);
 							AnalyzeInnerVariables(node.Attributes.GetValue("expression"));
 							break;
 						case "loop":
 							//	{LoopStart(Name:Value; ...)}
 							expressionText = node.Attributes.GetValue("expression");
-							mEntryCollection.Add("LoopStart()", nName);
+							mElement.Add("LoopStart()", nName);
 							AnalyzeInnerVariables(expressionText);
 							if(node.Nodes.Count > 0)
 							{
-								mEntryCollection.Add(">", "");
+								mElement.Add(">", "");
 								result = AnalyzeNodes(node.Nodes);
-								mEntryCollection.Add("<", "");
+								mElement.Add("<", "");
 							}
-							mEntryCollection.Add("LoopEnd()", nName);
+							mElement.Add("LoopEnd()", nName);
 							break;
 						default:
 							AnalyzeInnerVariables(node.Value);
@@ -747,126 +513,221 @@ namespace TargetScript
 		/// </returns>
 		private bool BuildTemplate(TemplateItem template)
 		{
-			int cBegin = 0;     //	Current begin.
-			int cEnd = 0;       //	Current end.
-			string cParam = "";
-			string cSide = "";
-			string cType = "";
-			string cValue = "";
-			MatchCollection matches = null;
+			List<string> commands = null;
+			ExpressionElement eNode = null;
+			ExpressionTree tree = null;
+			int iCount = 0;
+			int iIndex = 0;
+			string line = "";
+			string name = "";
 			ActionNodeItem node = null;
 			ActionNodeCollection nodes = this;
-			int pEnd = 0;       //	Previous end.
 			bool result = false;
-			int tEnd = 0;       //	Text end.
+			string value = "";
 
 			this.Clear();
 			mTemplate = template;
 
+			if(mEventBoard == null)
+			{
+				mEventBoard = new ExpressionEventBoard();
+				mEventBoard.RequestConfigValue +=
+					new ExpressionElementEventHandler(expression_RequestConfigValue);
+				mEventBoard.RequestMetadataValue +=
+					new ExpressionElementEventHandler(expression_RequestMetadataValue);
+				mEventBoard.RequestRunCommand +=
+					new ExpressionElementEventHandler(expression_RequestRunCommand);
+			}
 			if(mTemplate != null && mTemplate.Lines.Count > 0)
 			{
 				result = true;
 				//	Get the loop condition.
-				foreach(string line in mTemplate.Lines)
+				iCount = mTemplate.Lines.Count;
+				for(iIndex = 0; iIndex < iCount; iIndex ++)
 				{
-					tEnd = line.Length - 1;
-					matches = Regex.Matches(line,
-						ResourceMain.ActionNodeLineLoopPattern);
-					//	groups:
-					//	loop   - Each entire loop statement.
-					//	type   - Submatch for Loop|Condition.
-					//	side   - Submatch for Start|End.
-					//	params - Submatch for parameters.
-					if(matches.Count > 0)
+					//	Each line in the source file.
+					line = mTemplate.Lines[iIndex];
+					tree = ExpressionTree.Parse(line, mEventBoard);
+					commands = ExpressionTree.GetCommandNames(tree);
+					//	The followimg commands will be processed at this stage.
+					//	- Continue. Merge the contents of the next line onto this one.
+					//	- LoopStart / LoopEnd. Prepare the local attributes with the
+					//		Name:Value list contents.
+					//	-	ConditionStart / ConditionEnd. Prepare the local attributes
+					//		with the Name:Value list contents.
+					if(commands.Exists(x => x.ToLower() == "continue"))
 					{
-						pEnd = 0;
-						foreach(Match match in matches)
+						//	If the continue command is present, take care of that first
+						//	and reprocess the line.
+						eNode = ExpressionTree.GetCommand(tree, "continue");
+						if(eNode != null)
 						{
-							cValue = Tools.GetValue(match, "loop");
-							if(cValue.Length > 0)
+							if(eNode.Index > 0)
 							{
-								//	A branch node was found.
-								cType = Tools.GetValue(match, "type").ToLower();
-								//if(cType == "condition")
-								//{
-								//	Console.WriteLine("Break here...");
-								//}
-								cSide = Tools.GetValue(match, "side").ToLower();
-								cBegin = match.Index;
-								cEnd = cBegin + match.Length - 1;
-								if(cBegin > pEnd)
+								line = line.Substring(0, eNode.Index);
+							}
+							else
+							{
+								line = "";
+							}
+							if(iIndex + 1 < iCount)
+							{
+								//	Something can be taken from the next line.
+								line += mTemplate.Lines[iIndex + 1];
+								mTemplate.Lines.RemoveAt(iIndex + 1);
+							}
+							mTemplate.Lines[iIndex] = line;
+							if(iIndex + 1 < iCount)
+							{
+								iIndex--;
+								iCount--;
+							}
+							continue;
+						}
+					}
+					else if(commands.Exists(x => x.ToLower() == "loopstart"))
+					{
+						node = new ActionNodeItem();
+						node.Value = "loop";
+						tree.ActionNode = node;
+						node.Expression = tree;
+						nodes.Add(node);
+						nodes = node.Nodes;
+					}
+					else if(commands.Exists(x => x.ToLower() == "loopend"))
+					{
+						name = tree.Attributes.GetValue("name").ToLower();
+						if(name.Length > 0)
+						{
+							while(node.Parent != null)
+							{
+								nodes = node.Parent;
+								node = nodes.Parent;
+								if(node != null)
 								{
-									//	Some content was found on this line between the
-									//	current start and the previous end.
-									//	Create a normal text line at the current level
-									//	before setting the branch.
-									node = new ActionNodeItem();
-									node.HasLineEnd = false;
-									node.Value = line.Substring(pEnd, cBegin - pEnd);
-									nodes.Add(node);
-								}
-								if(cSide == "start")
-								{
-									//	Start a new branch.
-									node = new ActionNodeItem();
-									node.HasLineEnd = false;
-									node.Value = cType;
-									AddParameters(match, node, "params");
-									nodes.Add(node);
-									nodes = node.Nodes;
-								}
-								else if(cSide == "end")
-								{
-									//	Complete the current branch.
-									node = null;
-									cParam = Tools.GetValue(match, "params");
-									if(cParam.Length > 0)
+									nodes = node.Parent;
+									if(node.Value == "loop" &&
+										node.Attributes.GetValue("name").ToLower() == name)
 									{
-										//	Return to the named branch.
-										node = GetAncestorNodeWithParam(nodes, cParam);
-										if(node != null && node.Parent != null)
-										{
-											nodes = node.Parent;
-										}
+										//	Last named loop.
+										break;
 									}
-									if(node == null &&
-										nodes.Parent != null && nodes.Parent.Parent != null)
-									{
-										//	Return to the closest branch.
-										nodes = nodes.Parent.Parent;
-									}
-								}
-								else if(cType == "config" && cSide == "set")
-								{
-									//	Set a config value.
-									node = new ActionNodeItem();
-									node.HasLineEnd = false;
-									node.Value = "config";
-									node.Attributes.Add("access", cSide);
-									node.Attributes.Add("expression",
-										Tools.GetValue(match, "params"));
-									node.Attributes.Add("name", mTemplate.Name);
-									nodes.Add(node);
 								}
 							}
-							pEnd = cEnd + 1;
 						}
-						if(pEnd < tEnd)
+						else
 						{
-							//	Post the text found to the right side of all branches.
-							node = new ActionNodeItem();
-							node.HasLineEnd = true;
-							node.Value = line.Substring(pEnd, tEnd - pEnd);
-							nodes.Add(node);
+							while(node.Parent != null)
+							{
+								nodes = node.Parent;
+								node = nodes.Parent;
+								if(node != null)
+								{
+									nodes = node.Parent;
+									if(node.Value == "loop")
+									{
+										//	Last known loop.
+										break;
+									}
+								}
+								else
+								{
+									break;
+								}
+							}
+						}
+					}
+					else if(commands.Exists(x => x.ToLower() == "conditionstart"))
+					{
+						node = new ActionNodeItem();
+						node.Value = "condition";
+						tree.ActionNode = node;
+						node.Expression = tree;
+						nodes.Add(node);
+						nodes = node.Nodes;
+					}
+					else if(commands.Exists(x => x.ToLower() == "conditionend"))
+					{
+						name = tree.Attributes.GetValue("name").ToLower();
+						if(name.Length > 0)
+						{
+							while(node.Parent != null)
+							{
+								nodes = node.Parent;
+								node = nodes.Parent;
+								if(node != null)
+								{
+									nodes = node.Parent;
+									if(node.Value == "condition" &&
+										node.Attributes.GetValue("name").ToLower() == name)
+									{
+										//	Last named loop.
+										break;
+									}
+								}
+							}
+						}
+						else
+						{
+							while(node.Parent != null)
+							{
+								nodes = node.Parent;
+								node = nodes.Parent;
+								if(node != null)
+								{
+									nodes = node.Parent;
+									if(node.Value == "condition")
+									{
+										//	Last known condition.
+										break;
+									}
+								}
+								else
+								{
+									break;
+								}
+							}
 						}
 					}
 					else
 					{
-						//	No branch was found.
-						node = new ActionNodeItem();
-						node.HasLineEnd = true;
-						node.Value = line;
-						nodes.Add(node);
+						//	Normal line.
+						if(commands.Exists(x => x.ToLower() == "savefile"))
+						{
+							//	The save file command is present on this line. Make sure
+							//	it is the first thing on the line.
+							eNode = ExpressionTree.GetCommand(tree, "savefile");
+							if(eNode.Index > 0)
+							{
+								//	Place the preceeding text in the current line, and
+								//	the command in the following line. Afterward, reprocess
+								//	the current line.
+								value = line.Substring(0, eNode.Index);
+								line = line.Substring(eNode.Index);
+								mTemplate.Lines[iIndex] = value;
+								mTemplate.Lines.Insert(iIndex + 1, line);
+								iIndex--;
+								iCount++;
+							}
+							else
+							{
+								//	Command is at the beginning of the line.
+								//	Add as normal item.
+								node = new ActionNodeItem();
+								node.Value = line;
+								tree.ActionNode = node;
+								node.Expression = tree;
+								nodes.Add(node);
+							}
+						}
+						else
+						{
+							node = new ActionNodeItem();
+							node.Value = line;
+							tree.ActionNode = node;
+							node.Expression = tree;
+							nodes.Add(node);
+						}
 					}
 				}
 			}
@@ -914,24 +775,58 @@ namespace TargetScript
 		/// </returns>
 		private bool EvaluateExpression(ActionNodeItem node, string expression)
 		{
+			AttributeItem attribute = null;
 			bool bExists = false;
 			ExpressionContext context = null;
 			IGenericExpression<bool> evaluator = null;
 			string expressionText = expression;
+			MatchCollection matches = null;
+			ExpressionTree resolver = null;
 			bool result = false;
-			AttributeCollection values = null;
+			List<AttributeItem> values = null;
 			VariableCollection variables = null;
+			string word = "";
 
 			if(expression?.Length > 0)
 			{
 				//	Expression is specified.
 				bExists = true;
+				//	Convert from tagged reference, if necessary.
+				expressionText =
+					ExpressionTree.Render(node.Expression, expressionText);
 				//	Resolve higher level commands.
 				expressionText = Tools.ReduceHighLevelCommands(expressionText);
+				//	Resolve all variables and run-time functions.
+				resolver =
+					ExpressionTree.Parse(expressionText, node.Expression.EventBoard);
+				resolver.ActionNode = node;
+				expressionText = resolver.Reduce();
+
 				context = new ExpressionContext();
 				variables = context.Variables;
-				values = ResolveInnerVariables(node, expressionText);
-				if(values.Count > 0)
+				values = AttributeCollection.CloneItems(node.Attributes);
+				//	Add all normal words as variables.
+				matches = Regex.Matches(expressionText,
+					ResourceMain.ExpressionWordPattern);
+				foreach(Match match in matches)
+				{
+					//	Normal words were found.
+					word = Tools.GetValue(match, "word");
+					if(!Regex.IsMatch(word,
+						ResourceMain.ExpressionPlaceholderPattern) &&
+						!Regex.IsMatch(word,
+						ResourceMain.ExpressionOperatorPattern))
+					{
+						if(!values.Exists(x => x.Name.ToLower() == word.ToLower()))
+						{
+							attribute = new AttributeItem();
+							attribute.Name = word;
+							attribute.Value = word;
+							values.Add(attribute);
+						}
+					}
+				}
+				if(expressionText.Length > 0)
 				{
 					foreach(AttributeItem value in values)
 					{
@@ -954,8 +849,11 @@ namespace TargetScript
 								variables.Add(value.Name, value.Value);
 							}
 						}
+						else
+						{
+							variables.Add(value.Name.ToLower(), value.Name.ToLower());
+						}
 					}
-					expressionText = values.GetValue("expression");
 					//	Value is ready to use.
 					try
 					{
@@ -967,7 +865,7 @@ namespace TargetScript
 						Console.WriteLine(
 							string.Format(
 							"Error: Could not evaluate expression: {0}\r\n {1}",
-							expression,
+							expressionText,
 							ex.Message));
 					}
 				}
@@ -978,76 +876,93 @@ namespace TargetScript
 			}
 			return result;
 		}
-		//*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*
-		/// <summary>
-		/// Evaluate the expression and return a value indicating whether it
-		/// applies or not.
-		/// </summary>
-		/// <param name="attributes">
-		/// Collection of attributes that have been assigned with indirect values.
-		/// </param>
-		/// <returns>
-		/// True if the expression evaluates to true or isn't specified at all.
-		/// Otherwise, false.
-		/// </returns>
-		private bool EvaluateExpression(AttributeCollection attributes)
-		{
-			bool bExists = false;
-			ExpressionContext context = null;
-			IGenericExpression<bool> evaluator = null;
-			string expressionText = "";
-			bool result = false;
-			VariableCollection variables = null;
+		//*-----------------------------------------------------------------------*
 
-			//	Expression is specified.
-			bExists = true;
-			context = new ExpressionContext();
-			variables = context.Variables;
-			if(attributes.Count > 0)
+		//*-----------------------------------------------------------------------*
+		//*	expression_RequestConfigValue																					*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Called when a config value is being requested for the caller's
+		/// expression.
+		/// </summary>
+		/// <param name="sender">
+		/// The object raising this event.
+		/// </param>
+		/// <param name="e">
+		/// Expression element event arguments.
+		/// </param>
+		private void expression_RequestConfigValue(object sender,
+			ExpressionElementEventArgs e)
+		{
+			ActionNodeItem node = ExpressionTree.GetActionNode(e.Element);
+
+			if(node != null)
 			{
-				foreach(AttributeItem value in attributes)
-				{
-					if(value.Name.ToLower() != "expression")
-					{
-						if(value.Value.ToLower() == "true" ||
-							value.Value.ToLower() == "false")
-						{
-							//	Boolean.
-							variables.Add(value.Name, bool.Parse(value.Value));
-						}
-						else if(IsNumeric(value.Value))
-						{
-							//	Numeric.
-							variables.Add(value.Name, double.Parse(value.Value));
-						}
-						else
-						{
-							//	String.
-							variables.Add(value.Name, value.Value);
-						}
-					}
-				}
-				expressionText = attributes.GetValue("expression");
-				//	Value is ready to use.
-				try
-				{
-					evaluator = context.CompileGeneric<bool>(expressionText);
-					result = evaluator.Evaluate();
-				}
-				catch(Exception ex)
-				{
-					Console.WriteLine(
-						string.Format(
-						"Error: Could not evaluate expression: {0}\r\n {1}",
-						expressionText,
-						ex.Message));
-				}
+				e.ResultValue = ResolveConfig(node, e.RequestName);
+				e.Handled = true;
 			}
-			if(!bExists)
+			else
 			{
-				result = true;
+				Console.WriteLine(
+					string.Format(
+					"Warning: No node assigned for {0} resolution.",
+					e.RequestName));
 			}
-			return result;
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*expression_RequestMetadataValue																				*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Called when a metadata value is being requested for the caller's
+		/// expression.
+		/// </summary>
+		/// <param name="sender">
+		/// The object raising this event.
+		/// </param>
+		/// <param name="e">
+		/// Expression element event arguments.
+		/// </param>
+		private void expression_RequestMetadataValue(object sender,
+			ExpressionElementEventArgs e)
+		{
+			e.ResultValue = GetMetaFieldValue(e.RequestName);
+			e.Handled = true;
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*	expression_RequestRunCommand																					*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Called when the expression processor needs to run a command to resolve
+		/// a value in the host context.
+		/// </summary>
+		/// <param name="sender">
+		/// The object raising this event.
+		/// </param>
+		/// <param name="e">
+		/// Expression element event arguments.
+		/// </param>
+		private void expression_RequestRunCommand(object sender,
+			ExpressionElementEventArgs e)
+		{
+			ActionNodeItem node = ExpressionTree.GetActionNode(e.Element);
+
+			if(node != null)
+			{
+				e.ResultValue =
+					RunCommand(node, e.Element, e.RequestName, e.Parameters);
+				e.Handled = true;
+			}
+			else
+			{
+				Console.WriteLine(
+					string.Format(
+					"Warning: No node assigned for command {0}.",
+					e.RequestName));
+			}
 		}
 		//*-----------------------------------------------------------------------*
 
@@ -1213,28 +1128,28 @@ namespace TargetScript
 			int fCount = 0;
 			string fName = "";
 			string[] fParts = new string[0];
-			//ComponentItem component = null;
 			string result = "";
 
-			if(mComponent != null)
+			if(fieldName?.Length > 0)
 			{
-				fName = Tools.StripBraces(fieldName);
+				fName = Tools.StripBraces(fieldName).ToLower();
 				if(fName.IndexOf(":") > -1)
 				{
-					//	Override is present.
-					fParts = Tools.StripBraces(fieldName).Split(new char[] { ':' });
+					//	Level override is present.
+					fParts = fName.Split(new char[] { ':' });
 					fCount = fParts.Length;
-					if(fCount > 0)
+					if(fCount > 1)
 					{
 						//	Left side is override. Right side is field name.
-						switch(fParts[0].ToLower())
+						switch(fParts[0])
 						{
+							case "element":
 							case "entry":
 							case "field":
-								//	Current entry.
-								if(mEntryCollection?.Count > 0)
+								//	Current element.
+								if(mElement?.Count > 0)
 								{
-									attributes = mEntryCollection;
+									attributes = mElement;
 								}
 								break;
 							case "component":
@@ -1250,32 +1165,31 @@ namespace TargetScript
 						fName = fParts[1];
 					}
 				}
-				else if(mEntryCollection?.Count > 0)
-				{
-					//	Current entry position.
-					attributes = mEntryCollection;
-				}
 				else
 				{
-					//	Base object.
-					//attributes = mComponent.Attributes[0];
-					attributes =
-						mComponent.Attributes.GetCollection("[DataType]=baseobject");
+					//	Only one name specified. Try to get the value first from the
+					//	element, then from the component.
+					if(mElement != null)
+					{
+						attributes = mElement;
+					}
+					else if(mComponent != null)
+					{
+						attributes =
+							mComponent.Attributes.GetCollection("[DataType]=baseobject");
+						if(attributes == null ||
+							!attributes.Exists(x => x.Name.ToLower() == fName))
+						{
+							//	The base object of the component doesn't contain the
+							//	specified element.
+							attributes =
+								mComponent.Attributes.GetCollectionWithMember(fName);
+						}
+					}
 				}
-				if(attributes?.Count > 0)
+				if(attributes != null)
 				{
-					//	Attributes collection is selected.
-					if(fName?.Length > 0)
-					{
-						//	Get the specified value.
-						result = attributes.GetValue(fName);
-					}
-					else
-					{
-						//	No value was specified. Use the first attribute.
-						//	Typically, DataType=object.
-						result = attributes[0].Value;
-					}
+					result = attributes.GetValue(fName);
 				}
 			}
 			return result;
@@ -1456,7 +1370,7 @@ namespace TargetScript
 							}
 							break;
 						case "config":
-							//	{ConfigSet(Name:Value)}
+							//	{SetConfig(Name:Value)}
 							//	Set the specified configuration entry name to the supplied
 							//	value.
 							expressionText = node.Attributes.GetValue("expression");
@@ -1628,24 +1542,6 @@ namespace TargetScript
 						}
 					}
 				}
-				if(!bMatch)
-				{
-					//	{Tab(x)}
-					matches = Regex.Matches(sValue,
-						ResourceMain.PostProcessingTabPattern);
-					foreach(Match match in matches)
-					{
-						cValue = Tools.GetValue(match, "params");
-						int.TryParse(cValue, out iValue);
-						if(iValue > 0)
-						{
-							content = Tools.GetValue(match, "content");
-							sFixed = sFixed.Replace(content,
-								new string(tChar, iValue * tCount));
-							bMatch = true;
-						}
-					}
-				}
 				//	Unescape all double-braced values.
 				if(sFixed.IndexOf("[[") > -1 || sFixed.IndexOf("]]") > -1 ||
 					sFixed.IndexOf("{{") > -1 || sFixed.IndexOf("}}") > -1)
@@ -1686,6 +1582,60 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
+		//*	PostProcessingNeeded																									*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Return a value indicating whether post-processing is needed for the
+		/// rendered content.
+		/// </summary>
+		/// <returns>
+		/// A value indicating whether post processing is needed on the current
+		/// state of the content.
+		/// </returns>
+		private bool PostProcessingNeeded()
+		{
+			string line = "";
+			bool result = false;
+
+			foreach(string source in mRenderedContent)
+			{
+				line = source.ToLower();
+				if(line == "{decindent()}" || line == "{incindent()}" ||
+					line.IndexOf("{{") > -1 || line.IndexOf("[[") > -1)
+				{
+					result = true;
+					break;
+				}
+			}
+			return result;
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*	PostProcessLine																												*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Perform basic post-processing on the caller's printable line.
+		/// </summary>
+		private static string PostProcessLine(string expression)
+		{
+			string result = expression;
+			
+			if(expression?.Length > 0)
+			{
+				if(result.IndexOf("[[") > -1 || result.IndexOf("]]") > -1 ||
+					result.IndexOf("{{") > -1 || result.IndexOf("}}") > -1)
+				{
+					result = Regex.Replace(result,
+						ResourceMain.PostProcessingUnescapeBracePattern,
+						ResourceMain.PostProcessingUnescapeBraceReplacement);
+				}
+			}
+			return result;
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
 		//*	ProcessEntries																												*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
@@ -1712,6 +1662,7 @@ namespace TargetScript
 			int iLast = 0;    //	Index of the last match.
 			AttributeCollection properties = null;
 			bool result = false;
+			ExpressionTree resolver = null;
 			string source = "";
 			string[] sourceList = new string[0];
 
@@ -1724,11 +1675,12 @@ namespace TargetScript
 					x.Name.ToLower() == "source"))
 				{
 					source = node.Attributes.GetValue("source");
-					if(Tools.HasBraces(source,
-						BraceEnumType.Curly |
-						BraceEnumType.Square))
+					if(source.Length > 0)
 					{
-						source = ResolveValue(node, source);
+						source = ExpressionTree.Render(node.Expression, source);
+						resolver = ExpressionTree.Parse(source, mEventBoard);
+						resolver.ActionNode = node;
+						source = resolver.Reduce();
 					}
 				}
 				if(source.Length > 0)
@@ -1755,13 +1707,13 @@ namespace TargetScript
 				for(eIndex = 0; eIndex < eCount; eIndex++)
 				{
 					//	Process for last valid item with expression.
-					mEntryCollection = attributes[eIndex];
-					if(!mEntryCollection.Exists(x =>
+					mElement = attributes[eIndex];
+					if(!mElement.Exists(x =>
 						x.Name.ToLower() == "datatype" &&
 						x.Value.ToLower() == "baseobject"))
 					{
-						entryName = mEntryCollection.GetValue("Name");
-						node.Attributes.SetValue("EntryName", entryName);
+						entryName = mElement.GetValue("Name");
+						node.Attributes.SetValue("ElementName", entryName);
 						if(EvaluateExpression(node, expressionText))
 						{
 							iLast = eIndex;
@@ -1771,17 +1723,21 @@ namespace TargetScript
 				for(eIndex = 0; eIndex < eCount; eIndex++)
 				{
 					//	Each non-base entry.
-					mEntryCollection = attributes[eIndex];
-					if(!mEntryCollection.Exists(x =>
+					mElement = attributes[eIndex];
+					if(!mElement.Exists(x =>
 						x.Name.ToLower() == "datatype" &&
 						x.Value.ToLower() == "baseobject"))
 					{
 						//	This is not a base object.
-						entryName = mEntryCollection.GetValue("Name");
-						node.Attributes.SetValue("EntryName", entryName);
+						entryName = mElement.GetValue("Name");
+						node.Attributes.SetValue("ElementName", entryName);
 						//node.Attributes.SetValue("ComponentName", componentName);
 						if(EvaluateExpression(node, expressionText))
 						{
+							if(mVerbose)
+							{
+								Console.WriteLine("   Element:" + entryName);
+							}
 							node.Attributes.SetValue("isFirst",
 								(bFirst ? "true" : "false"));
 							node.Attributes.SetValue("isLast",
@@ -1791,69 +1747,6 @@ namespace TargetScript
 						}
 					}
 				}
-			}
-			return result;
-		}
-		//*-----------------------------------------------------------------------*
-
-		//*-----------------------------------------------------------------------*
-		//*	ReplaceVariables																											*
-		//*-----------------------------------------------------------------------*
-		/// <summary>
-		/// Replace the variables found in the caller's expression string with the
-		/// resolved values provided.
-		/// </summary>
-		/// <param name="node">
-		/// Reference to the node providing base reference in this context.
-		/// </param>
-		/// <param name="expression">
-		/// The expression containing possible resolved variables.
-		/// </param>
-		/// <param name="keys">
-		/// Collection of variable names and resolved values.
-		/// </param>
-		/// <returns>
-		/// If the expression was provided and variables were present, then
-		/// the caller's expression where all applicable variable names have been
-		/// replaced.<br />
-		/// If the expression was provided and no variables were found, then
-		/// the caller's expression, unchanged.<br />
-		/// If the expression was not provided, but the node was present, then
-		/// the node's base value.
-		/// </returns>
-		private string ReplaceVariables(ActionNodeItem node, string expression,
-			AttributeCollection keys)
-		{
-			int kCount = 0;
-			AttributeItem key = null;
-			int kIndex = 0;
-			string result = "";
-
-			if(expression?.Length > 0)
-			{
-				if(keys.Count > 0)
-				{
-					result = expression;
-					kCount = keys.Count;
-					//	Finish resolving all variable names. There is no logical
-					//	expression at this turn.
-					for(kIndex = 0; kIndex < kCount; kIndex++)
-					{
-						key = keys[kIndex];
-						if(key.Name.ToLower() != "expression" && key.Name != key.Value)
-						{
-							result = result.Replace(key.Name, key.Value);
-						}
-					}
-				}
-				else
-				{
-					result = expression;
-				}
-			}
-			else if(node != null)
-			{
-				result = node.Value;
 			}
 			return result;
 		}
@@ -1896,305 +1789,25 @@ namespace TargetScript
 				{
 					//	A config variable can be resolved within the node parameters or
 					//	the configuration table.
-					if(node.Attributes.Exists(x => x.Name.ToLower() == vVariable))
+					//	The parent node contains any named setting for the current level.
+					if(node.Parent != null && node.Parent.Parent != null)
 					{
-						result = node.Attributes.GetValue(vVariable);
-					}
-					else if(node.Parent != null)
-					{
-						//	Nothing found at the current level. Move upward.
-						if(node.Parent is ActionNodeTree || node.Parent.Parent == null)
+						if(node.Parent.Parent.Attributes.Exists(x =>
+							x.Name.ToLower() == vVariable))
 						{
-							//	We have reached the base. Check config table.
-							result = GetConfigValue(mConfigurations, variable);
+							result = node.Parent.Parent.Attributes.GetValue(vVariable);
 						}
 						else
 						{
-							//	Check the parent.
 							result = ResolveConfig(node.Parent.Parent, variable);
 						}
 					}
-				}
-			}
-			return result;
-		}
-		//*-----------------------------------------------------------------------*
-
-		//*-----------------------------------------------------------------------*
-		//*	ResolveInnerVariables																									*
-		//*-----------------------------------------------------------------------*
-		/// <summary>
-		/// Resolve all of the inner variables of the specified expression, using
-		/// an attribute collection to contain the variable assignments.
-		/// </summary>
-		/// <param name="node">
-		/// Reference to the current node in focus.
-		/// </param>
-		/// <param name="expression">
-		/// Expression to reduce.
-		/// </param>
-		/// <returns>
-		/// Attribute collection containing the reduced expression and all
-		/// variable assignments found, if any. If no variables were found,
-		/// the collection will be zero length.
-		/// </returns>
-		/// <remarks>
-		/// In this version, continue to reduce as long as changes are being made.
-		/// </remarks>
-		private AttributeCollection ResolveInnerVariables(ActionNodeItem node,
-			string expression)
-		{
-			bool bChanges = true;
-			BraceEnumType brace = BraceEnumType.None;
-			string expressionText = expression;
-			MatchCollection matches = null;
-			List<string> removeNames = new List<string>();
-			AttributeCollection result = new AttributeCollection();
-			string name = "";
-			string nameb = "";
-			string nLower = "";
-			int sIndex = 1;
-			string value = "";
-
-			if(node != null && expression?.Length > 0)
-			{
-				//	Convert config command expression.
-				if(expressionText == "config" || expressionText == "loop")
-				{
-					expressionText = node.Attributes.GetValue("expression");
-				}
-				//	Formalize all non-parameter function calls.
-				if(expressionText.IndexOf("{IncIndent}") > -1)
-				{
-					expressionText =
-						expressionText.Replace("{IncIndent}", "{IncIndent()}");
-					result.SetValue("expression", expressionText);
-				}
-				if(expressionText.IndexOf("{DecIndent}") > -1)
-				{
-					expressionText =
-						expressionText.Replace("{DecIndent}", "{DecIndent()}");
-					result.SetValue("expression", expressionText);
-				}
-				while(bChanges)
-				{
-					bChanges = false;
-					//	Resolve variable names.
-					matches = Regex.Matches(expressionText,
-						ResourceMain.InnerVariablesNoQuotePattern);
-					foreach(Match match in matches)
+					else
 					{
-						name = Tools.GetValue(match, "content");
-						if(name.Length > 0)
-						{
-							nameb = Tools.StripBraces(name);
-							brace = Tools.GetBraceType(name);
-							switch(brace)
-							{
-								case BraceEnumType.Curly:
-									//	Curly braces require config-style lookup.
-									//	Prefix allows use of the same name in config and metadata.
-									nameb = "C" + nameb;
-									break;
-								case BraceEnumType.Quote:
-									//	Quoted items are replaced with names.
-									nameb = string.Format("string{0}", sIndex++);
-									break;
-								case BraceEnumType.Square:
-									//	Square braces require metadata field lookup.
-									//	Prefix allows use of the same name in config and metadata.
-									if(nameb.IndexOf(":") > -1)
-									{
-										//	Remove the control section from the square.
-										nameb = nameb.Split(new char[] { ':' })[1];
-									}
-									nameb = "M" + nameb;
-									break;
-							}
-							if(!result.Exists(x => x.Name.ToLower() == nameb.ToLower()))
-							{
-								//	Variables are single-instanced.
-								switch(brace)
-								{
-									case BraceEnumType.Curly:
-										//	Curly braces require config-style lookup.
-										value = ResolveConfig(node, name);
-										break;
-									case BraceEnumType.Square:
-										//	Square braces require metadata field lookup.
-										value = GetMetaFieldValue(name);
-										break;
-									default:
-										value = name;
-										break;
-								}
-								result.SetValue(nameb, value);
-								if(name != nameb)
-								{
-									expressionText = expressionText.Replace(name, nameb);
-								}
-								bChanges = true;
-							}
-						}
+						//	We have searched to the base. Get the value from configuration
+						//	table.
+						result = GetConfigValue(mConfigurations, variable);
 					}
-					if(bChanges && result.Count > 0)
-					{
-						result.SetValue("expression", expressionText);
-					}
-					if(!bChanges)
-					{
-						bChanges = RunCommands(result, expressionText);
-						if(bChanges)
-						{
-							expressionText = result.GetValue("expression");
-							foreach(AttributeItem item in result)
-							{
-								nLower = item.Name.ToLower();
-								if(nLower.StartsWith(":set:"))
-								{
-									if(node.Parent != null && node.Parent.Parent != null)
-									{
-										//	This value fits in the parent node.
-										node.Parent.Parent.Attributes.
-											SetValue(item.Name.Substring(5), item.Value);
-									}
-									else if(mConfigurations != null)
-									{
-										//	This value goes into the configuration table.
-										SetConfigValue(mConfigurations,
-											item.Name.Substring(5), item.Value);
-									}
-								}
-								else
-								{
-									switch(nLower)
-									{
-										case ":canskip:":
-											if(expressionText.Length == 0)
-											{
-												//	There was at least one command on the line, and now
-												//	nothing remains.
-												node.Attributes.SetValue(":skip:", "1");
-											}
-											break;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			return result;
-		}
-		//*-----------------------------------------------------------------------*
-
-		//*-----------------------------------------------------------------------*
-		//*	ResolveValue																													*
-		//*-----------------------------------------------------------------------*
-		/// <summary>
-		/// Resolve the variable values from the caller's node specification and
-		/// current settings scope.
-		/// </summary>
-		/// <param name="node">
-		/// Reference to the node whose value is to be resolved.
-		/// </param>
-		/// <returns>
-		/// Fully resolved value for the node, if values were found. Otherwise,
-		/// an empty string.
-		/// </returns>
-		private string ResolveValue(ActionNodeItem node)
-		{
-			AttributeCollection keys = null;
-			string result = "";
-
-			if(node != null && node.Value?.Length > 0)
-			{
-				keys = ResolveInnerVariables(node, node.Value);
-				result = keys.GetValue("expression");
-				result = ReplaceVariables(node, result, keys);
-			}
-			return result;
-		}
-		//*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*
-		/// <summary>
-		/// Resolve the variable values from the caller's closest available node
-		/// specification and current settings scope.
-		/// </summary>
-		/// <param name="node">
-		/// Reference to the node whose value is to be resolved.
-		/// </param>
-		/// <param name="variable">
-		/// Name of the variable to resolve for the specified node.
-		/// </param>
-		/// <returns>
-		/// The value of the specified variable, if found within the current scope
-		/// of settings. Otherwise, an empty string.
-		/// </returns>
-		private string ResolveValue(ActionNodeItem node, string variable)
-		{
-			int kCount = 0;
-			AttributeItem key = null;
-			AttributeCollection keys = null;
-			int kIndex = 0;
-			string result = "";
-
-			keys = ResolveInnerVariables(node, variable);
-			if(keys.Count > 0)
-			{
-				result = keys.GetValue("expression");
-				kCount = keys.Count;
-				//	Finish resolving all variable names. There is no logical
-				//	expression at this turn.
-				for(kIndex = 0; kIndex < kCount; kIndex++)
-				{
-					key = keys[kIndex];
-					if(key.Name.ToLower() != "expression" && key.Name != key.Value)
-					{
-						result = result.Replace(key.Name, key.Value);
-					}
-				}
-			}
-			else
-			{
-				result = node.Value;
-			}
-
-			return result;
-		}
-		//*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*
-		/// <summary>
-		/// Resolve a value from available resources at the base level.
-		/// </summary>
-		/// <param name="variable">
-		/// Name of the variable to resolve. If the value is enclosed in curly
-		/// braces {x}, then its match is retrieved from the configuration table.
-		/// If the value is enclosed in square brackets [x], then its match is
-		/// retrieved from the directed component table, if specified, or from
-		/// the first component table in which it is found, if the component
-		/// table is not specified.
-		/// </param>
-		/// <returns>
-		/// Value of the base resource, if found. Otherwise, an empty string.
-		/// </returns>
-		private string ResolveValue(string variable)
-		{
-			bool bConfig = false;
-			string nValue = "";
-			string result = "";
-
-			if(variable?.Length > 0)
-			{
-				bConfig = IsConfigValue(variable);
-				nValue = Tools.StripBraces(variable);
-				if(bConfig)
-				{
-					//	Configuration table.
-					result = GetConfigValue(mConfigurations, nValue);
-				}
-				else
-				{
-					//	Component metadata field name.
-					result = GetMetaFieldValue(nValue);
 				}
 			}
 			return result;
@@ -2220,7 +1833,7 @@ namespace TargetScript
 		/// <list type="bullet">
 		/// <item>Component - Each component both loaded from ComponentPage data,
 		/// and specified in the Configuration data.</item>
-		/// <item>Entry - Each entry within the selected Component. If not nested
+		/// <item>Element - Each entry within the selected Component. If not nested
 		/// within a component, all metafields in all components will be processed
 		/// to check for matching conditions.</item>
 		/// </list><br />
@@ -2237,14 +1850,16 @@ namespace TargetScript
 			bool bFirst = false;    //	Flag - First item.
 			int cCount = 0;         //	Component count.
 			int cIndex = 0;         //	Component index.
-			ComponentEntryFollower componentEntry = null;
+			ComponentElementFollower componentEntry = null;
 			string[] componentNames = new string[0];
+			int dCount = 0;
 			string expressionText = ""; //	Current expression.
 			string[] fParts = new string[0];
-			int iLast = 0;					//	Last indent.
+			int iLast = 0;          //	Last indent.
 			int nCount = 0;					//	Node count.
 			int nIndex = 0;					//	Node index.
 			ActionNodeItem node = null;
+			ExpressionTree resolver = null;
 			bool result = false;
 			int sCount = 0;         //	Reference stack count.
 			string source = "";			//	Loop source.
@@ -2258,15 +1873,38 @@ namespace TargetScript
 				{
 					mNode = node = nodes[nIndex];
 					vLower = node.Value.ToLower();
+					if(mVerbose)
+					{
+						switch(vLower)
+						{
+							case "condition":
+								Console.WriteLine("Action>Condition - n:" +
+									node.Attributes.GetValue("name") + " e:" +
+									node.Attributes.GetValue("expression"));
+								break;
+							case "loop":
+								Console.WriteLine("Action>Loop - n:" +
+									node.Attributes.GetValue("name") + " l:" +
+									node.Attributes.GetValue("level") + " e:" +
+									node.Attributes.GetValue("expression"));
+								break;
+							default:
+								Console.WriteLine("Action>" + node.Value);
+								break;
+						}
+					}
 					expressionText = "";
-					//if(vLower.IndexOf("{{") > -1)
-					//{
-					//	Console.WriteLine("Break here...");
-					//}
 					switch(vLower)
 					{
 						case "condition":
 							//	{ConditionStart(Name:Value; ...)}
+							if(node.Attributes.GetValue("name").ToLower() ==
+								"setprimarykey")
+							{
+								//	Break here...
+								dCount++;
+								dCount--;
+							}
 							if(node.Nodes.Count > 0)
 							{
 								if(EvaluateExpression(node))
@@ -2275,31 +1913,10 @@ namespace TargetScript
 								}
 							}
 							break;
-						case "config":
-							//	{ConfigSet(Name:Value)}
-							//	Set the specified configuration entry name to the supplied
-							//	value.
-							if(node.Attributes.Count > 0 || node.Parent != null)
-							{
-								expressionText = ResolveValue(node);
-								if(expressionText.IndexOf(":") > -1)
-								{
-									//	Name:Value.
-									fParts = expressionText.Split(new char[] { ':' });
-									SetConfigValue(mConfigurations,
-										fParts[0].Trim(), fParts[1].Trim());
-								}
-							}
-							break;
 						case "loop":
 							//	{LoopStart(Name:Value; ...)}
 							if(node.Nodes.Count > 0)
 							{
-								//if(node.Attributes.GetValue("name") ==
-								//	"modelList")
-								//{
-								//	Console.WriteLine("Break here...");
-								//}
 								expressionText = node.Attributes.GetValue("expression");
 								source = "";
 								if(node.Attributes.Exists(x =>
@@ -2311,11 +1928,12 @@ namespace TargetScript
 										x.Name.ToLower() == "source"))
 									{
 										source = node.Attributes.GetValue("source");
-										if(Tools.HasBraces(source,
-											BraceEnumType.Curly |
-											BraceEnumType.Square))
+										if(source.Length > 0)
 										{
-											source = ResolveValue(node, source);
+											source = ExpressionTree.Render(node.Expression, source);
+											resolver = ExpressionTree.Parse(source, mEventBoard);
+											resolver.ActionNode = node;
+											source = resolver.Reduce();
 										}
 									}
 									if(source.Length > 0)
@@ -2326,7 +1944,7 @@ namespace TargetScript
 									{
 										componentNames =
 											Tools.DelimitedToArray(
-												ResolveValue("{ComponentPages}"));
+												GetConfigValue(mConfigurations, "{ComponentPages}"));
 									}
 									cCount = componentNames.Length;
 									bFirst = true;
@@ -2335,60 +1953,70 @@ namespace TargetScript
 									for(cIndex = 0; cIndex < cCount; cIndex ++)
 									{
 										mComponent = mComponents[componentNames[cIndex]];
-										mEntryCollection = null;
-										node.Attributes.SetValue("ComponentName", mComponent.Name);
-										node.Attributes.SetValue("ObjectName",
-											GetMetaFieldValue("Name"));
-										if(EvaluateExpression(node, expressionText))
+										if(mComponent != null)
 										{
-											iLast = cIndex;
+											mElement = null;
+											node.Attributes.SetValue("ComponentName", mComponent.Name);
+											node.Attributes.SetValue("ObjectName",
+												GetMetaFieldValue("Name"));
+											if(EvaluateExpression(node, expressionText))
+											{
+												iLast = cIndex;
+											}
 										}
 									}
 									for(cIndex = 0; cIndex < cCount; cIndex ++)
 									{
-										sCount = mComponentEntryStack.Count;
+										sCount = mComponentElementStack.Count;
 										componentEntry =
-											new ComponentEntryFollower(mComponent, mEntryCollection);
-										mComponentEntryStack.Push(componentEntry);
+											new ComponentElementFollower(mComponent, mElement);
+										mComponentElementStack.Push(componentEntry);
 										mComponent = mComponents[componentNames[cIndex]];
-										mEntryCollection = null;
-										node.Attributes.SetValue("ComponentName", mComponent.Name);
-										node.Attributes.SetValue("ObjectName",
-											GetMetaFieldValue("Name"));
-										if(EvaluateExpression(node, expressionText))
+										if(mComponent != null)
 										{
-											node.Attributes.SetValue("isFirst",
-												bFirst ? "true" : "false");
-											node.Attributes.SetValue("isLast",
-												cIndex == iLast ? "true" : "false");
-											result = ResolveNodes(node.Nodes);
-											bFirst = false;
+											mElement = null;
+											node.Attributes.SetValue("ComponentName", mComponent.Name);
+											node.Attributes.SetValue("ObjectName",
+												GetMetaFieldValue("Name"));
+											if(EvaluateExpression(node, expressionText))
+											{
+												if(mVerbose)
+												{
+													Console.WriteLine(" Component:" + mComponent.Name);
+												}
+												node.Attributes.SetValue("isFirst",
+													bFirst ? "true" : "false");
+												node.Attributes.SetValue("isLast",
+													cIndex == iLast ? "true" : "false");
+												result = ResolveNodes(node.Nodes);
+												bFirst = false;
+											}
 										}
-										while(mComponentEntryStack.Count > sCount)
+										while(mComponentElementStack.Count > sCount)
 										{
 											//	Off-balance return is allowed from inner levels.
-											componentEntry = mComponentEntryStack.Pop();
+											componentEntry = mComponentElementStack.Pop();
 											mComponent = componentEntry.Component;
-											mEntryCollection = componentEntry.Entry;
+											mElement = componentEntry.Element;
 										}
 									}
 								}
 								else if(node.Attributes.Count(
 									x => x.Name.ToLower() == "level" &&
-									x.Value.ToLower() == "entry") > 0)
+									x.Value.ToLower() == "element") > 0)
 								{
 									//	Process for entries.
-									sCount = mComponentEntryStack.Count;
+									sCount = mComponentElementStack.Count;
 									componentEntry =
-										new ComponentEntryFollower(mComponent, mEntryCollection);
-									mComponentEntryStack.Push(componentEntry);
+										new ComponentElementFollower(mComponent, mElement);
+									mComponentElementStack.Push(componentEntry);
 									if(mComponent == null)
 									{
 										//	This loop is outside of a component loop.
 										//	All components will be traced.
 										componentNames =
 											Tools.DelimitedToArray(
-												ResolveValue("{ComponentPages}"));
+												GetConfigValue(mConfigurations, "{ComponentPages}"));
 										cCount = componentNames.Length;
 										for(cIndex = 0; cIndex < cCount; cIndex ++)
 										{
@@ -2402,12 +2030,12 @@ namespace TargetScript
 										//	This loop is running inside of an active component.
 										result = ProcessEntries(node, expressionText);
 									}
-									while(mComponentEntryStack.Count > sCount)
+									while(mComponentElementStack.Count > sCount)
 									{
 										//	Off-balance return is allowed from inner levels.
-										componentEntry = mComponentEntryStack.Pop();
+										componentEntry = mComponentElementStack.Pop();
 										mComponent = componentEntry.Component;
-										mEntryCollection = componentEntry.Entry;
+										mElement = componentEntry.Element;
 									}
 									if(!result)
 									{
@@ -2417,10 +2045,14 @@ namespace TargetScript
 							}
 							break;
 						default:
-							expressionText = ResolveValue(node);
-							if(node.Attributes.GetValue(":skip:").Length == 0)
+							expressionText = node.Expression.Reduce();
+							if(node.Attributes.GetValue(":skip:") != "1")
 							{
 								mRenderedContent.Add(expressionText);
+								if(mVerbose)
+								{
+									Console.WriteLine(expressionText + "\r\n");
+								}
 							}
 							else
 							{
@@ -2441,600 +2073,394 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	RunCommands																														*
+		//*	RunCommand																														*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
-		/// Run all of the commands found in the expression.
+		/// Run one specific command, and return the resulting information to
+		/// the caller.
 		/// </summary>
-		/// <param name="values">
-		/// Collection of resolved variables. Also contains the current expression
-		/// to be reduced.
+		/// <param name="node">
+		/// Node whose context is being used for any side references.
 		/// </param>
-		/// <param name="expression">
-		/// The expression containing possible commands to resolve and / or run.
+		/// <param name="command">
+		/// The name of the command to resolve and / or run.
+		/// </param>
+		/// <param name="parameters">
+		/// String of zero or more parameters to be processed with the command.
 		/// </param>
 		/// <returns>
-		/// Value indicating whether the operation was successful.
+		/// Resolved value of the command.
 		/// </returns>
-		private bool RunCommands(AttributeCollection values, string expression)
+		/// <remarks>
+		/// Please take note of the following considerations.
+		/// <list type="bullet">
+		/// <item>An attribute with the name of :canskip: might be included
+		/// with the node attributes, depending upon the type of command
+		/// processed.</item>
+		/// <item>Unlike the RunCommands method, which allows both direct
+		/// and indirect parameter values, this command's parameters
+		/// must all be pre-resolved prior to calling the method.</item>
+		/// <item>Some commands allow leading and trailing spaces, while
+		/// others don't. This has to do with the kind of processing
+		/// needed to validate the parameter.</item>
+		/// </list>
+		/// </remarks>
+		private string RunCommand(ActionNodeItem node, ExpressionElement element,
+			string command, string parameters)
 		{
 			StringBuilder builder = new StringBuilder();
-			string command = "";
-			//string expression = "";
+			string cLower = "";
 			string expressionText = "";
 			int iCount = 0;
 			int iIndex = 0;
 			int iValue = 0;
-			MatchCollection matches = null;
-			string param = "";
 			string param1 = "";
 			string param2 = "";
+			char[] pList = new char[] { ';' };
 			char[] pNameValue = new char[] { ':' };
 			char[] pParameter = new char[] { ',' };
 			string[] pParts = new string[0];
-			bool result = false;
-			string statement = "";
+			string result = "";
 			string value = "";
 
-			if(values != null)
+			if(command?.Length > 0)
 			{
-				if(expression?.Length > 0)
+				result = "{" + command + "(" + parameters + ")}";
+				cLower = command.ToLower();
+				switch(cLower)
 				{
-					expressionText = expression;
-					matches = Regex.Matches(expression,
-						ResourceMain.CommandSpecialPattern);
-					foreach(Match match in matches)
-					{
-						statement = Tools.GetValue(match, "command");
-						command = Tools.GetValue(match, "name").ToLower();
-						param = Tools.GetValue(match, "params");
-						switch(command)
+					case "aan":
+						//	Direct.
+						value = parameters.Trim();
+						result = GetIndefiniteArticle(value);
+						//processed = true;
+						break;
+					case "clearrenderedcontent":
+						//	Clear the rendered content collection, and reset the file
+						//	dirty flag.
+						mRenderedContent.Clear();
+						Console.WriteLine("Rendered content cleared...");
+						result = "";
+						node.Attributes.SetValue(":canskip:", "1");
+						break;
+					case "confighas":
+						//	Return a value indicating whether the configuration table
+						//	contains the specified name.
+						result = mConfigurations.Exists(parameters).ToString().ToLower();
+						break;
+					case "decindent":
+						//	Delayed processing.
+						break;
+					case "elementhas":
+						//	Return a value indicating whether the currently selected
+						//	metadata entry has a value of the specified name.
+						result = mComponent.ElementExists(parameters).ToString().ToLower();
+						break;
+					case "getcomponentcount":
+						//	Return the number of components.
+						result = mComponents.Count.ToString();
+						break;
+					case "getelementcount":
+						//	Return the count of entries on the currently selected
+						//	component.
+						if(mComponent != null)
 						{
-							case "iif":
-								pParts = param.Split(pParameter);
-								//	The expression portion of the statement is expected to be
-								//	resolved at the time this function is called.
-								expression = pParts[0].Trim();
-								values.SetValue("expression", expression);
-								if(EvaluateExpression(values))
+							result = mComponent.GetElementCount().ToString();
+						}
+						else
+						{
+							result = "0";
+						}
+						break;
+					case "getelementnames":
+						//	Return a delimited list of entry names on the currently
+						//	selected component.
+						if(mComponent != null)
+						{
+							result = mComponent.GetElementNames();
+						}
+						break;
+					case "ifnull":
+						//	Evaluate the expression in parameter 1.
+						//	If blank, use the value in parameter 2.
+						//	Otherwise, use the value in parameter 3.
+						result = "";
+						pParts = parameters.Split(pParameter);
+						if(pParts.Length == 3)
+						{
+							result = (pParts[0].Length == 0 ? pParts[1] : pParts[2]);
+						}
+						else
+						{
+							pParts = parameters.Split(pList);
+							if(pParts.Length == 3)
+							{
+								result = (pParts[0].Length == 0 ? pParts[1] : pParts[2]);
+							}
+						}
+						break;
+					case "iif":
+						//	Evaluate the expression in parameter 1.
+						//	If true, use the value in the second parameter.
+						//	If false, use the value in the third parameter.
+						result = "";
+						pParts = parameters.Split(pParameter);
+						if(pParts.Length == 3)
+						{
+							//	Three parameters with comma.
+							if(EvaluateExpression(node, pParts[0].Trim()))
+							{
+								result = pParts[1];
+							}
+							else
+							{
+								result = pParts[2];
+							}
+						}
+						else
+						{
+							pParts = parameters.Split(pList);
+							if(pParts.Length == 3)
+							{
+								//	Three parameters with semicolon.
+								if(EvaluateExpression(node, pParts[0].Trim()))
 								{
-									value = pParts[1];
-									if(values.Exists(x =>
-										x.Name.ToLower() == value.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									//	If the value is direct, border spacing is allowed.
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement,
-										value);
+									result = pParts[1];
 								}
 								else
 								{
-									value = pParts[2];
-									if(values.Exists(x =>
-										x.Name.ToLower() == value.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									//	If the value is direct, border spacing is allowed.
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement,
-										value);
+									result = pParts[2];
 								}
-								expression = expressionText;
-								result = true;
-								break;
-						}
-					}
-					if(!result)
-					{
-						//	Only continue if special command has not been activated.
-						matches = Regex.Matches(expression,
-							ResourceMain.CommandEvalPattern);
-						foreach(Match match in matches)
-						{
-							statement = Tools.GetValue(match, "command");
-							command = Tools.GetValue(match, "name").ToLower();
-							param = Tools.GetValue(match, "params");
-							switch(command)
-							{
-								case "aan":
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									value = GetIndefiniteArticle(value);
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement, value);
-									result = true;
-									break;
-								case "clearrenderedcontent":
-									//	Clear the rendered content collection, and reset the file
-									//	dirty flag.
-									mRenderedContent.Clear();
-									Console.WriteLine("Rendered content cleared...");
-									expressionText = Tools.ReplaceFirst(expressionText,
-										statement, "");
-									values.SetValue(":canskip:", "1");
-									result = true;
-									break;
-								case "confighas":
-									//	Return a value indicating whether the configuration table
-									//	contains the specified name.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement,
-										mConfigurations.Exists(value).ToString());
-									result = true;
-									break;
-								case "entryhas":
-									//	Return a value indicating whether the currently selected
-									//	metadata entry has a value of the specified name.
-									if(mComponent != null)
-									{
-										if(values.Exists(x =>
-											x.Name.ToLower() == param.Trim().ToLower()))
-										{
-											//	Indirect.
-											value = values.GetValue(param.Trim());
-										}
-										else
-										{
-											//	Direct.
-											value = param.Trim();
-										}
-										expressionText =
-											Tools.ReplaceFirst(expressionText, statement,
-											mComponent.EntryExists(value).ToString());
-										result = true;
-									}
-									break;
-								case "getcomponentcount":
-									//	Return the number of components.
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement,
-										mComponents.Count.ToString());
-									result = true;
-									break;
-								case "getentrycount":
-									//	Return the count of entries on the currently selected
-									//	component.
-									if(mComponent != null)
-									{
-										expressionText =
-											Tools.ReplaceFirst(expressionText, statement,
-											mComponent.GetEntryCount().ToString());
-										result = true;
-									}
-									break;
-								case "getentrynames":
-									//	Return a delimited list of entry names on the currently
-									//	selected component.
-									if(mComponent != null)
-									{
-										expressionText =
-											Tools.ReplaceFirst(expressionText, statement,
-											mComponent.GetEntryNames());
-									}
-									break;
-								case "instr":
-									//	Return a number cooresponding to the location at which
-									//	the specified pattern is found.
-									value = "0";
-									pParts = param.Split(pParameter);
-									if(pParts.Length > 1)
-									{
-										//	At least two parameters.
-										if(values.Exists(x =>
-											x.Name.ToLower() == pParts[0].Trim().ToLower()))
-										{
-											//	Indirect.
-											param1 = values.GetValue(pParts[0].Trim());
-										}
-										else
-										{
-											//	Direct.
-											//	In this case, border spaces are allowed.
-											param1 = pParts[0];
-										}
-										if(values.Exists(x =>
-											x.Name.ToLower() == pParts[1].Trim().ToLower()))
-										{
-											//	Indirect.
-											param2 = values.GetValue(pParts[1].Trim());
-										}
-										else
-										{
-											//	Direct.
-											//	In this case, border spaces are allowed.
-											param2 = pParts[1];
-										}
-										value = (param1.IndexOf(param2) + 1).ToString();
-										expressionText =
-											Tools.ReplaceFirst(expressionText, statement, value);
-									}
-									result = true;
-									break;
-								case "length":
-									//	Return the length of the parameter.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									value = value.Length.ToString();
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement, value);
-									result = true;
-									break;
-								case "lower":
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									value = value.ToLower();
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement, value);
-									result = true;
-									break;
-								case "nodehas":
-									//	Return a value indicating whether the current node
-									//	contains the specified value.
-									if(mNode != null)
-									{
-										if(values.Exists(x =>
-											x.Name.ToLower() == param.Trim().ToLower()))
-										{
-											//	Indirect.
-											value = values.GetValue(param.Trim());
-										}
-										else
-										{
-											//	Direct.
-											value = param.Trim();
-										}
-										expressionText =
-											Tools.ReplaceFirst(expressionText, statement,
-											NodeHas(mNode, value).ToString());
-										result = true;
-									}
-									break;
-								case "objecthas":
-									//	Return a value indicating whether the current object
-									//	contains the specified value.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement,
-										mComponents.ComponentExists(value).ToString());
-									result = true;
-									break;
-								case "plural":
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									value = GetPlural(value);
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement, value);
-									result = true;
-									break;
-								case "print":
-									//	Print the contents of the parameter.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									Console.WriteLine(value);
-									expressionText = Tools.ReplaceFirst(expressionText,
-										statement, "");
-									values.SetValue(":canskip:", "1");
-									result = true;
-									break;
-								case "savefile":
-									//	Save the current rendered output to the value specified
-									//	in the parameter.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									//	All parts of the expression have to be resolved before
-									//	saving.
-									if(value.Length > 0)
-									{
-										value = ReplaceVariables(null, value, values);
-										if(SaveFile(value))
-										{
-											Console.WriteLine(
-												string.Format("File {0} saved...", value));
-										}
-									}
-									expressionText = Tools.ReplaceFirst(expressionText,
-										statement, "");
-									values.SetValue(":canskip:", "1");
-									result = true;
-									break;
-								case "sort":
-									//	Sort the contents of the parameter, in ascending order.
-									//	Contents are presented as a delimited string.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									expressionText = Tools.ReplaceFirst(expressionText,
-										statement, Tools.SortDelimited(value, true));
-									result = true;
-									break;
-								case "sortdesc":
-									//	Sort the contents of the parameter, in descending order.
-									//	Contents are presented as a delimited string.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									expressionText = Tools.ReplaceFirst(expressionText,
-										statement, Tools.SortDelimited(value, false));
-									result = true;
-									break;
-								case "spaceto":
-									//	Create space to the specified place on the string.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									iCount = match.Length;
-									iIndex = expressionText.IndexOf(statement);
-									int.TryParse(value, out iValue);
-									if(iValue > 1)
-									{
-										if(iIndex > 0)
-										{
-											//	Save the left text prior to the cursor.
-											param1 = expressionText.Substring(0, iIndex);
-										}
-										else
-										{
-											param1 = "";
-										}
-										if(expressionText.Length > iIndex + iCount)
-										{
-											//	Save the right portion of the string.
-											param2 = expressionText.Substring(iIndex + iCount,
-												expressionText.Length - (iIndex + iCount));
-										}
-										else
-										{
-											param2 = "";
-										}
-										if(builder.Length > 0)
-										{
-											builder.Remove(0, builder.Length);
-										}
-										builder.Append(param1);
-										if(builder.Length < iValue)
-										{
-											//	Spaces can be inserted.
-											builder.Append(new string(' ', iValue - builder.Length));
-										}
-										builder.Append(param2);
-										value = builder.ToString();
-										expressionText = value;
-									}
-									else
-									{
-										expressionText =
-											Tools.ReplaceFirst(expressionText, statement, "");
-									}
-									result = true;
-									break;
-								case "sqltype":
-									//	Return the SQL data type corresponding to the specified
-									//	general data type.
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim()).ToLower();
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim().ToLower();
-									}
-									switch(value)
-									{
-										case "binary":
-										case "bit":
-										case "bool":
-										case "yes/no":
-											value = "bit";
-											break;
-										case "date":
-										case "datetime":
-										case "date/time":
-										case "smalldatetime":
-											value = "smalldatetime";
-											break;
-										case "decimal":
-										case "float":
-										case "single":
-											value = "float";
-											break;
-										case "guid":
-										case "uniqueidentifier":
-											value = "uniqueidentifier";
-											break;
-										case "int":
-										case "int32":
-										case "pk":
-											value = "int";
-											break;
-										case "string":
-										case "varchar":
-											value = "varchar";
-											break;
-										default:
-											if(value.Length > 5 && value.StartsWith("float"))
-											{
-												value = "float";
-											}
-											break;
-									}
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement, value);
-									break;
-								case "tab":
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									int.TryParse(value, out iValue);
-									if(iValue > 0)
-									{
-										expressionText =
-											Tools.ReplaceFirst(expressionText, statement,
-											new String('\t', iValue));
-									}
-									result = true;
-									break;
-								case "upper":
-									if(values.Exists(x =>
-										x.Name.ToLower() == param.Trim().ToLower()))
-									{
-										//	Indirect.
-										value = values.GetValue(param.Trim());
-									}
-									else
-									{
-										//	Direct.
-										value = param.Trim();
-									}
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement, value);
-									result = true;
-									break;
-								case "valueset":
-									//	Set a value on the current node.
-									pParts = param.Split(pNameValue);
-									if(pParts.Length > 0)
-									{
-										//	Name was found.
-										if(pParts.Length > 1)
-										{
-											//	Value was found.
-											values.SetValue(":set:" + pParts[0].Trim(),
-												pParts[1].Trim());
-										}
-										else
-										{
-											//	Use the name only.
-											values.SetValue(":set:" + pParts[0].Trim(), "");
-										}
-									}
-									expressionText =
-										Tools.ReplaceFirst(expressionText, statement, "");
-									values.SetValue(":canskip:", "1");
-									result = true;
-									break;
 							}
 						}
-						expression = expressionText;
-					}
-				}
-				if(result)
-				{
-					values.SetValue("expression", expression);
+						break;
+					case "incindent":
+						//	Delayed command.
+						break;
+					case "instr":
+						//	Return a number cooresponding to the location at which
+						//	the specified pattern is found.
+						value = "0";
+						pParts = parameters.Split(pParameter);
+						if(pParts.Length == 2)
+						{
+							//	Two parameters using comma.
+							param1 = pParts[0];
+							param2 = pParts[1];
+							result = (param1.IndexOf(param2) + 1).ToString();
+						}
+						else
+						{
+							pParts = parameters.Split(pList);
+							if(pParts.Length == 2)
+							{
+								//	Two parameters using semicolon.
+								param1 = pParts[0];
+								param2 = pParts[1];
+								result = (param1.IndexOf(param2) + 1).ToString();
+							}
+						}
+						break;
+					case "length":
+						//	Return the length of the parameter.
+						result = parameters.Length.ToString();
+						break;
+					case "lower":
+						result = parameters.ToLower();
+						break;
+					case "nodehas":
+						//	Return a value indicating whether the current node
+						//	contains the specified value.
+						if(mNode != null)
+						{
+							value = parameters.Trim();
+							result = NodeHas(mNode, value).ToString().ToLower();
+						}
+						break;
+					case "objecthas":
+						//	Return a value indicating whether the current object
+						//	contains the specified value.
+						value = parameters.Trim();
+						result = mComponents.ComponentExists(value).ToString().ToLower();
+						break;
+					case "plural":
+						value = parameters.Trim();
+						result = GetPlural(value);
+						break;
+					case "print":
+						//	Print the contents of the parameter.
+						Console.WriteLine(PostProcessLine(parameters));
+						result = "";
+						node.Attributes.SetValue(":canskip:", "1");
+						break;
+					case "savefile":
+						//	Save the current rendered output to the value specified
+						//	in the parameter.
+						value = parameters.Trim();
+						//	All parts of the expression have to be resolved before
+						//	saving.
+						if(value.Length > 0)
+						{
+							if(SaveFile(value))
+							{
+								Console.WriteLine(
+									string.Format("File {0} saved...", value));
+							}
+						}
+						node.Attributes.SetValue(":canskip:", "1");
+						result = "";
+						break;
+					case "selectcomponent":
+						//	Select the current component from metadata.
+						value = parameters.Trim();
+						mComponent = mComponents[value];
+						result = "";
+						node.Attributes.SetValue(":canskip:", "1");
+						break;
+					case "selectelement":
+						//	Select the current element from metadata by name.
+						//	If the component is non-null, the element is selected
+						//	from that component. Otherwise, the first matching
+						//	element in metadata is found and selected.
+						value = parameters.Trim();
+						mElement = mComponents.GetElement(mComponent, value);
+						result = "";
+						node.Attributes.SetValue(":canskip:", "1");
+						break;
+					case "setconfig":
+						//	Set a value in the configuration table.
+						pParts = parameters.Split(pNameValue);
+						if(pParts.Length > 0)
+						{
+							//	Name was found.
+							if(pParts.Length > 1)
+							{
+								//	Value was found.
+								SetConfigValue(mConfigurations, pParts[0].Trim(), pParts[1]);
+							}
+							else
+							{
+								//	Use the name only.
+								SetConfigValue(mConfigurations, pParts[0].Trim(), "");
+							}
+						}
+						node.Attributes.SetValue(":canskip:", "1");
+						result = "";
+						break;
+					case "setvalue":
+						//	Set a value on the current node.
+						pParts = parameters.Split(pNameValue);
+						if(pParts.Length > 0)
+						{
+							//	Name was found.
+							if(pParts.Length > 1)
+							{
+								//	Value was found.
+								SetNodeValue(node, pParts[0].Trim(), pParts[1]);
+							}
+							else
+							{
+								//	Use the name only.
+								SetNodeValue(node, pParts[0].Trim(), "");
+							}
+						}
+						node.Attributes.SetValue(":canskip:", "1");
+						result = "";
+						break;
+					case "sort":
+						//	Sort the contents of the parameter, in ascending order.
+						//	Contents are presented as a delimited string.
+						value = parameters.Trim();
+						result = Tools.SortDelimited(value, true);
+						break;
+					case "sortdesc":
+						//	Sort the contents of the parameter, in descending order.
+						//	Contents are presented as a delimited string.
+						value = parameters.Trim();
+						result = Tools.SortDelimited(value, false);
+						break;
+					case "spaceto":
+						//	Create space to the specified place on the string.
+						value = parameters;
+						int.TryParse(value, out iValue);
+						param1 =
+							ExpressionElement.GetParentTextLeftOf(element);
+						iIndex = param1.Length;
+						iCount = expressionText.Length;
+						if(iValue > iIndex)
+						{
+							if(builder.Length > 0)
+							{
+								builder.Remove(0, builder.Length);
+							}
+							//	Spaces can be inserted.
+							builder.Append(new string(' ', iValue - iIndex));
+							result = builder.ToString();
+						}
+						else
+						{
+							result = "";
+						}
+						break;
+					case "sqltype":
+						//	Return the SQL data type corresponding to the specified
+						//	general data type.
+						value = parameters.Trim().ToLower();
+						switch(value)
+						{
+							case "binary":
+							case "bit":
+							case "bool":
+							case "yes/no":
+								value = "bit";
+								break;
+							case "date":
+							case "datetime":
+							case "date/time":
+							case "smalldatetime":
+								value = "smalldatetime";
+								break;
+							case "decimal":
+							case "float":
+							case "single":
+								value = "float";
+								break;
+							case "guid":
+							case "uniqueidentifier":
+								value = "uniqueidentifier";
+								break;
+							case "int":
+							case "int32":
+							case "pk":
+								value = "int";
+								break;
+							case "string":
+							case "varchar":
+								value = "varchar";
+								break;
+							default:
+								if(value.Length > 5 && value.StartsWith("float"))
+								{
+									value = "float";
+								}
+								break;
+						}
+						result = value;
+						break;
+					case "tab":
+						value = parameters.Trim();
+						int.TryParse(value, out iValue);
+						if(iValue > 0)
+						{
+							result = new string('\t', iValue);
+						}
+						break;
+					case "upper":
+						result = parameters.ToUpper();
+						break;
+					default:
+						result = "";
+						break;
 				}
 			}
 			return result;
@@ -3060,6 +2486,40 @@ namespace TargetScript
 			string entryName, string entryValue)
 		{
 			configs.SetValue(entryName, entryValue);
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*	SetNodeValue																													*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Set a named value for the node and all siblings and children.
+		/// </summary>
+		/// <param name="node">
+		/// Reference to the node for which the value is being set.
+		/// </param>
+		/// <param name="name">
+		/// Name of the value to set.
+		/// </param>
+		/// <param name="value">
+		/// Value to place on the node.
+		/// </param>
+		private void SetNodeValue(ActionNodeItem node,
+			string name, string value)
+		{
+			if(name?.Length > 0)
+			{
+				if(node == null || node.Parent == null || node.Parent.Parent == null)
+				{
+					//	The value goes to the configuration table.
+					SetConfigValue(mConfigurations, name, value);
+				}
+				else
+				{
+					//	Target node is available.
+					node.Parent.Parent.Attributes.SetValue(name, value);
+				}
+			}
 		}
 		//*-----------------------------------------------------------------------*
 
@@ -3101,7 +2561,7 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	InventoryTemplate																											*
+		//*	InventoryDetail																												*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
 		/// Create an inventory report of the variables and commands found on the
@@ -3113,7 +2573,7 @@ namespace TargetScript
 		/// <returns>
 		/// Value indicating whether the operation was successful.
 		/// </returns>
-		public bool InventoryTemplate(TemplateItem template)
+		public bool InventoryDetail(TemplateItem template)
 		{
 			int aCount = 0;
 			AttributeItem aggregate = null;
@@ -3128,13 +2588,13 @@ namespace TargetScript
 				result = BuildTemplate(template);
 				if(result)
 				{
-					mEntryCollection = new AttributeCollection();
+					mElement = new AttributeCollection();
 					AnalyzeNodes(this);
 					//	Upon reaching this point, config values, metadata values, and
 					//	command names are all listed in a single-file attribute
 					//	collection.
 					aggregator = new AttributeCollection();
-					foreach(AttributeItem item in mEntryCollection)
+					foreach(AttributeItem item in mElement)
 					{
 						aggregate = aggregator.AddUnique(item.Name);
 						int.TryParse(aggregate.Value, out aCount);
@@ -3146,6 +2606,58 @@ namespace TargetScript
 					{
 						mRenderedContent.Add(" " + item.Name + ": " + item.Value);
 					}
+				}
+			}
+			return result;
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*	InventorySummary																											*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Create an inventory report of the variables and commands found on the
+		/// specified template, and  save that to the rendered content collection.
+		/// </summary>
+		/// <param name="templates">
+		/// Reference to the collection of templates to be reported upon.
+		/// </param>
+		/// <returns>
+		/// Value indicating whether the operation was successful.
+		/// </returns>
+		public bool InventorySummary(TemplateCollection templates)
+		{
+			int aCount = 0;
+			AttributeItem aggregate = null;
+			AttributeCollection aggregator = null;
+			bool result = false;
+
+			if(templates?.Count > 0)
+			{
+				mElement = new AttributeCollection();
+				foreach(TemplateItem template in templates)
+				{
+					result = BuildTemplate(template);
+					if(result)
+					{
+						AnalyzeNodes(this);
+					}
+				}
+				//	Upon reaching this point, config values, metadata values, and
+				//	command names are all listed in a single-file attribute
+				//	collection.
+				aggregator = new AttributeCollection();
+				foreach(AttributeItem item in mElement)
+				{
+					aggregate = aggregator.AddUnique(item.Name);
+					int.TryParse(aggregate.Value, out aCount);
+					aCount++;
+					aggregate.Value = aCount.ToString();
+				}
+				aggregator = AttributeCollection.SortByName(aggregator);
+				foreach(AttributeItem item in aggregator)
+				{
+					mRenderedContent.Add(" " + item.Name + ": " + item.Value);
 				}
 			}
 			return result;
@@ -3272,6 +2784,10 @@ namespace TargetScript
 
 			if(mTemplate != null && mTemplate.Name?.Length > 0)
 			{
+				if(PostProcessingNeeded())
+				{
+					PostProcessing();
+				}
 				filename =
 					GetConfigValue(mConfigurations, mTemplate.Name + ".OutputFilename");
 				if(filename.Length > 0)
@@ -3315,6 +2831,10 @@ namespace TargetScript
 			bool result = false;
 			TextWriter writer = null;
 
+			if(PostProcessingNeeded())
+			{
+				PostProcessing();
+			}
 			try
 			{
 				Directory.CreateDirectory(file.DirectoryName);
@@ -3375,6 +2895,21 @@ namespace TargetScript
 		{
 			get { return mTemplate; }
 			set { mTemplate = value; }
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*	Verbose																																*
+		//*-----------------------------------------------------------------------*
+		private bool mVerbose = false;
+		/// <summary>
+		/// Get/Set a value indicating whether actions will be logged to the
+		/// console on a verbose level.
+		/// </summary>
+		public bool Verbose
+		{
+			get { return mVerbose; }
+			set { mVerbose = value; }
 		}
 		//*-----------------------------------------------------------------------*
 

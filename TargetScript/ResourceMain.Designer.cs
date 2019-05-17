@@ -61,7 +61,7 @@ namespace TargetScript {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (?i:(?s:(?&lt;loop&gt;\{(?&lt;type&gt;(Loop|Condition|Config))(?&lt;side&gt;(Start|End|Set))\s*\((?&lt;params&gt;.*)\s*\)\s*\}))).
+        ///   Looks up a localized string similar to (?i:(?s:(?&lt;loop&gt;\{(?&lt;type&gt;(Condition|Continue|Loop|SetConfig))(?&lt;side&gt;(Start|End)){0,1}\((?&lt;params&gt;.*?)\)\}))).
         /// </summary>
         internal static string ActionNodeLineLoopPattern {
             get {
@@ -88,7 +88,7 @@ namespace TargetScript {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (?i:(?&lt;command&gt;\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)\((?&lt;params&gt;[0-9a-z-_\.\:\;,\\/\*\+]*)\)\})).
+        ///   Looks up a localized string similar to (?i:(?&lt;command&gt;\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)\((?&lt;params&gt;[^\{\}\[\]\(\)]*)\)\})).
         /// </summary>
         internal static string CommandEvalPattern {
             get {
@@ -115,11 +115,182 @@ namespace TargetScript {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (?i:(?&lt;el&gt;\{\{(?=\{*))(?&lt;content&gt;[a-z]+[0-9a-z-_]*){0,1}(?&lt;er&gt;(?&lt;=\}*)\}\})).
+        /// </summary>
+        internal static string ExpressionEscapeCPattern {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeCPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^~${content}~^.
+        /// </summary>
+        internal static string ExpressionEscapeCReplacement {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeCReplacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:(?&lt;el&gt;\^\~)(?&lt;content&gt;[a-z]+[0-9a-z-_]*){0,1}(?&lt;er&gt;\~\^)).
+        /// </summary>
+        internal static string ExpressionEscapeDPattern {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeDPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {{${content}}}.
+        /// </summary>
+        internal static string ExpressionEscapeDReplacement {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeDReplacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:(?&lt;el&gt;\[\[(?=\[*))(?&lt;content&gt;[a-z]+[0-9a-z-_\:]*){0,1}(?&lt;er&gt;(?&lt;=\]*)\]\])).
+        /// </summary>
+        internal static string ExpressionEscapeSPattern {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeSPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^|${content}|^.
+        /// </summary>
+        internal static string ExpressionEscapeSReplacement {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeSReplacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:(?&lt;el&gt;\^\|)(?&lt;content&gt;[a-z]+[0-9a-z-_\:]*){0,1}(?&lt;er&gt;\|\^)).
+        /// </summary>
+        internal static string ExpressionEscapeTPattern {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeTPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [[${content}]].
+        /// </summary>
+        internal static string ExpressionEscapeTReplacement {
+            get {
+                return ResourceManager.GetString("ExpressionEscapeTReplacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (?&lt;key&gt;\[[^\]]+\])|(?&lt;key&gt;\{[^\}]+\})|(?&lt;key&gt;\&quot;.*(?&lt;!\\)\&quot;)|(AND|OR|NOT|XOR)|(?&lt;key&gt;\w+).
         /// </summary>
         internal static string ExpressionEvalStringPattern {
             get {
                 return ResourceManager.GetString("ExpressionEvalStringPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:(?&lt;command&gt;\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)(\((?&lt;params&gt;.*?)\)){0,1}\})).
+        /// </summary>
+        internal static string ExpressionKeywordCommandPattern {
+            get {
+                return ResourceManager.GetString("ExpressionKeywordCommandPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)\}).
+        /// </summary>
+        internal static string ExpressionKeywordConfigPattern {
+            get {
+                return ResourceManager.GetString("ExpressionKeywordConfigPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:\[(?&lt;name&gt;[a-z]+[0-9a-z-_\:]*)\]).
+        /// </summary>
+        internal static string ExpressionKeywordMetadataPattern {
+            get {
+                return ResourceManager.GetString("ExpressionKeywordMetadataPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:(\{|\[)(?&lt;name&gt;[a-z]+[0-9a-z-_]*)).
+        /// </summary>
+        internal static string ExpressionKeywordNamePattern {
+            get {
+                return ResourceManager.GetString("ExpressionKeywordNamePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:(?&lt;operator&gt;AND|OR|NOT|XOR)).
+        /// </summary>
+        internal static string ExpressionOperatorPattern {
+            get {
+                return ResourceManager.GetString("ExpressionOperatorPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \((?&lt;tag&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+))\).
+        /// </summary>
+        internal static string ExpressionParameterPattern {
+            get {
+                return ResourceManager.GetString("ExpressionParameterPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?&lt;placeholder&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+)).
+        /// </summary>
+        internal static string ExpressionPlaceholderPattern {
+            get {
+                return ResourceManager.GetString("ExpressionPlaceholderPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:^(?&lt;word&gt;[a-z]+[0-9a-z-_]*)$).
+        /// </summary>
+        internal static string ExpressionSingleWord {
+            get {
+                return ResourceManager.GetString("ExpressionSingleWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^(?&lt;tag&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+))$.
+        /// </summary>
+        internal static string ExpressionTagOnlyPattern {
+            get {
+                return ResourceManager.GetString("ExpressionTagOnlyPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?&lt;tag&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+)).
+        /// </summary>
+        internal static string ExpressionTagPattern {
+            get {
+                return ResourceManager.GetString("ExpressionTagPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?i:(?&lt;word&gt;[a-z]+[0-9a-z]*)).
+        /// </summary>
+        internal static string ExpressionWordPattern {
+            get {
+                return ResourceManager.GetString("ExpressionWordPattern", resourceCulture);
             }
         }
         
@@ -142,7 +313,7 @@ namespace TargetScript {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (?i:(?&lt;content&gt;(?&lt;!\{)\{[a-z]+[0-9a-z-_]*\}(?!\}))|(?&lt;content&gt;(?&lt;!\[)\[[a-z]+[0-9a-z-_]*\](?!\]))|(AND|OR|NOT|XOR)|(?&lt;!(\{|\[)[0-9a-z-_]*)(?&lt;content&gt;[a-z]+[a-z0-9-_]*)(?![a-z0-9-_]*\s*\()(?![0-9a-z-_]*(\]|\}))).
+        ///   Looks up a localized string similar to (?i:(?&lt;content&gt;(?&lt;!\{)\{[a-z]+[0-9a-z-_]*\}(?!\}))|(?&lt;content&gt;(?&lt;!\[)\[[a-z]+[0-9a-z-_\:]*\](?!\]))|(AND|OR|NOT|XOR)|(?&lt;!(\{|\[)[0-9a-z-_]*)(?&lt;content&gt;[a-z]+[a-z0-9-_]*)(?![a-z0-9-_]*\s*\()(?![0-9a-z-_]*(\]|\}))).
         /// </summary>
         internal static string InnerVariablesNoQuotePattern {
             get {
@@ -223,7 +394,7 @@ namespace TargetScript {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (?i:\{(?&lt;variable&gt;\{[a-z]+[0-9a-z-_]*\})\}|\[(?&lt;variable&gt;\[[a-z]+[0-9a-z-_]*\])\]).
+        ///   Looks up a localized string similar to (?i:\{(?&lt;variable&gt;\{.*?\})\}|\[(?&lt;variable&gt;\[.*?\])\]).
         /// </summary>
         internal static string PostProcessingUnescapeBracePattern {
             get {
@@ -244,16 +415,18 @@ namespace TargetScript {
         ///   Looks up a localized string similar to Convert easy-to-read, easy-to-maintain JSON declarations to finished code.
         ///
         ///Syntax:
-        ///TargetScript /project:{Filename}
+        ///TargetScript {/project:{Filename}|/createtemplate:{Filename}}
+        ///  [/mode:{ModeName}][/output:{Filename}]
         ///  [/projectPath:{WorkingPath}]
-        ///  [/report:{Filename}]
+        ///  [/tabChar:{T|S}][/tabCount:{Integer}]
+        ///  [/verbose]
         ///  [/wait]
+        ///  [/?]
         ///
-        ///  projectPath - The working directory of this instance. If not
-        ///                specified here or in the project filename, the current
-        ///                command prompt path from which the application was
-        ///                started will be inferred.
-        ///  wait        - Wait for a user keypress after the application ends..
+        ///  createtemplate - Open a text-based source file and convert it to template.
+        ///  Filename       - Name of the project, source, or output file to open or save.
+        ///  mode           - Set the operating mode.
+        ///  ModeNam [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Syntax {
             get {

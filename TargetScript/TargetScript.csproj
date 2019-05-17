@@ -57,7 +57,9 @@
     <Compile Include="BraceEnum.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="ExpressionTree.cs" />
     <Compile Include="JsonTemplate.cs" />
+    <Compile Include="ParameterTypeEnum.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramModeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

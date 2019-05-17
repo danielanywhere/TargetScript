@@ -1,82 +1,85 @@
 [
-{
-	"TypeName": "Template",
-	"Name": "HTMLSinglePageApp",
-	"Definition":
-	[
-		"{Include(html/Header.json)}",
-		"{Include(html/BodyPrefix.json)}",
-		"{Include(html/Body.json)}",
-		"{Include(html/BodySuffix.json)}",
-		"{Include(html/Footer.json)}",
-		"{SaveFile(../output/spa/Index.html)}",
-		"{ClearRenderedContent()}"
-	]
-},
-{
-	"TypeName": "Template",
-	"Name": "HTMLSPAJavaScript",
-	"Definition":
-	[
-		"{ConfigSet({Name}.OutputFilename:../output/spa/IndexViewModel.js)}",
-		"{Include(javascript/GlobalFunctions.json)}",
-		"{Include(javascript/CustomEditors.json)}",
-		"{Include(javascript/DocumentReadyStart.json)}",
-		"{Include(javascript/ViewViewModel.json)}",
-		"{Include(javascript/DocumentReadyEnd.json)}",
-		"{Include(javascript/PartitionFunctionStart.json)}",
-		"{Include(javascript/ViewModel.json)}",
-		"{Include(javascript/Model.json)}",
-		"{Include(javascript/PartitionFunctionEnd.json)}"
-	]
-},
-{
-	"TypeName": "Template",
-	"Name": "CSharpObjectCollection",
-	"Definition":
-	[
-		"{LoopStart(name:objectCollection;level:component;source:{Sort({ComponentPages})})}",
-		"{Include(csharp/ObjectCollection.json)}",
-		"{SaveFile(../output/csharp/{ObjectName}Collection.js)}",
-		"{ClearRenderedContent()}",
-		"{LoopEnd(name:objectCollection)}"
-	]
-},
-{
-	"TypeName": "Template",
-	"Name": "CSharpObjectController",
-	"Definition":
-	[
-		"{LoopStart(name:objectController;level:component;source:{Sort({ComponentPages})})}",
-		"{Include(csharp/ObjectController.json)}",
-		"{SaveFile(../output/csharp/controllers/{ObjectName}Controller.js)}",
-		"{ClearRenderedContent()}",
-		"{LoopEnd(name:objectController)}"
-	]
-},
-{
-	"TypeName": "Template",
-	"Name": "CSharpObjectLookupController",
-	"Definition":
-	[
-		"{LoopStart(name:objectLookupController;level:component;source:{Sort({ComponentPages})})}",
-		"{Include(csharp/ObjectLookupController.json)}",
-		"{SaveFile(../output/csharp/controllers/{ObjectName}LookupController.js)}",
-		"{ClearRenderedContent()}",
-		"{LoopEnd(name:objectLookupController)}"
-	]
-},
-{
-	"TypeName": "Template",
-	"Name": "SQLTableCreator",
-	"Definition":
-	[
-		"{LoopStart(name:sqlTableCreator;level:component;source:{Sort({ComponentPages})})}",
-		"{Include(sql/SqlTableCreator.json)}",
-		"{SaveFile(../output/sql/{ObjectName}-Table.sql)}",
-		"{ClearRenderedContent()}",
-		"{LoopEnd(name:sqlTableCreator)}"
-	]
-}
+	{
+		"TypeName": "Template",
+		"Name": "HTMLSinglePageApp",
+		"Definition":
+		[
+			"{SetConfig(ComponentPages:{ComponentPagesUI})}",
+			"{Include(html/Header.json)}",
+			"{Include(html/BodyPrefix.json)}",
+			"{Include(html/Body.json)}",
+			"{Include(html/BodySuffix.json)}",
+			"{Include(html/Footer.json)}",
+			"{SaveFile(../output/spa/Index.html)}",
+			"{ClearRenderedContent()}"
+		]
+	},
+	{
+		"TypeName": "Template",
+		"Name": "HTMLSPAJavaScript",
+		"Definition":
+		[
+			"{SetConfig(ComponentPages:{ComponentPagesSorted})}",
+			"{Include(javascript/GlobalFunctions.json)}",
+			"{Include(javascript/CustomEditors.json)}",
+			"{Include(javascript/DocumentReadyStart.json)}",
+			"{Include(javascript/ViewViewModel.json)}",
+			"{Include(javascript/DocumentReadyEnd.json)}",
+			"{Include(javascript/PartitionFunctionStart.json)}",
+			"{Include(javascript/ViewModel.json)}",
+			"{Include(javascript/Model.json)}",
+			"{Include(javascript/PartitionFunctionEnd.json)}",
+			"{SaveFile(../output/spa/IndexViewModel.js)}",
+			"{ClearRenderedContent()}"
+		]
+	},
+	{
+		"TypeName": "Template",
+		"Name": "CSharpObjectCollection",
+		"Definition":
+		[
+			"{LoopStart(name:objectCollection;level:component;source:{Sort({ComponentPages})})}",
+			"{Include(csharp/ObjectCollection.json)}",
+			"{SaveFile(../output/csharp/{ObjectName}Collection.cs)}",
+			"{ClearRenderedContent()}",
+			"{LoopEnd(name:objectCollection)}"
+		]
+	},
+	{
+		"TypeName": "Template",
+		"Name": "CSharpObjectController",
+		"Definition":
+		[
+			"{LoopStart(name:objectController;level:component;source:{Sort({ComponentPages})})}",
+			"{Include(csharp/ObjectController.json)}",
+			"{SaveFile(../output/csharp/controllers/{ObjectName}Controller.cs)}",
+			"{ClearRenderedContent()}",
+			"{LoopEnd(name:objectController)}"
+		]
+	},
+	{
+		"TypeName": "Template",
+		"Name": "CSharpObjectLookupController",
+		"Definition":
+		[
+			"{LoopStart(name:objectLookupController;level:component;source:{Sort({ComponentPages})})}",
+			"{Include(csharp/ObjectLookupController.json)}",
+			"{SaveFile(../output/csharp/controllers/{ObjectName}LookupController.cs)}",
+			"{ClearRenderedContent()}",
+			"{LoopEnd(name:objectLookupController)}"
+		]
+	},
+	{
+		"TypeName": "Template",
+		"Name": "SQLTableCreator",
+		"Definition":
+		[
+			"{LoopStart(name:sqlTableCreator;level:component;source:{Sort({ComponentPages})})}",
+			"{Include(sql/SqlTableCreator.json)}",
+			"{SaveFile(../output/sql/{ObjectName}-Table.sql)}",
+			"{ClearRenderedContent()}",
+			"{LoopEnd(name:sqlTableCreator)}"
+		]
+	}
 ]
 

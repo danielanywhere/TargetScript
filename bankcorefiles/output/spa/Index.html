@@ -1,0 +1,465 @@
+<!doctype html>
+<!--
+	Copyright (c) 2018, 2019. Daniel Patterson (danielanywhere)
+	Released for public access under the MIT License.
+	http://www.opensource.org/licenses/mit-license.php
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--
+	In this MVVM version, the view model layers are implicit.
+	- All HTML is declarative, and defines the VIEW.
+	- All JavaScript logic composes the VIEW MODEL.
+	- All JSON tables constitute the MODEL.
+
+	This file demonstrates a customized version of jsGrid.js having
+	several improvements specifically for this project.
+
+	This file demonstrates that the implementation of jsGrid is much
+	smaller and easier to implement than an equal usage of Telerik
+	Kendo grid. The original version of jsGrid can be found at:
+		https://github.com/tabalinas/jsgrid
+
+	This specific file demonstrates a more than 260% production increase
+	per ounce of human effort. More specifically, the template that
+	produced this file of 499 lines in length is only 191 lines long.
+-->
+<head>
+<title>BankCore featuring jQuery, jsGrid, ASP.NET, and REST</title>
+<!-- Base formatting. -->
+<meta charset="utf-8" />
+<link rel="stylesheet" href="Default.css" />
+<link rel="stylesheet" href="scripts/jsgridmod/jsgrid.css" />
+<link rel="stylesheet" href="scripts/jsgridmod/jsgrid-theme.css" />
+<link rel="stylesheet" href="scripts/jquery-ui-1.12.1.d1/jquery-ui.css" />
+<script src="scripts/jquery-3.3.1.js"></script>
+<script src="scripts/jquery-ui-1.12.1.d1/jquery-ui.js"></script>
+<script src="scripts/jquery.validate.1.9.min.js"></script>
+<script src="scripts/jsgridmod/jsgrid.js"></script>
+<script src="scripts/IndexViewModel.js"></script>
+</head>
+<body>
+	<div id="tabs">
+		<!-- Tab Strip -->
+		<ul>
+			<li><a href="#Customers"><span>Customers</span></a></li>
+			<li><a href="#Accounts"><span>Accounts</span></a></li>
+			<li><a href="#Branches"><span>Branches</span></a></li>
+			<li><a href="#Employees"><span>Employees</span></a></li>
+		</ul>
+		<!-- /Tab Strip -->
+		<!-- Customers Panel. -->
+		<div id="Customers">
+			<p class="top0">Select a customer to edit or view.</p>
+			<div id="grdCustomers" class="jsGrid"></div>
+			<!-- Customer Filtering -->
+			<div class="tabAccordian">
+				<h3>Row Filter Settings</h3>
+				<div id="filtCustomers" class="rowFilter">
+					<div class="head">Row Filtering</div>
+					<p class="small">Enter all or part of a value to look for in each desired column.</p>
+					<label class="container">Customer ID (Min):
+						<input type="text" id="txtfiltcstCustomerID.Min">
+					</label>
+					<label class="container">Customer ID (Max):
+						<input type="text" id="txtfiltcstCustomerID.Max">
+					</label>
+					<label class="container">Customer Ticket:
+						<input type="text" id="txtfiltcstCustomerTicket">
+					</label>
+					<label class="container">Name:
+						<input type="text" id="txtfiltcstName">
+					</label>
+					<label class="container">Address:
+						<input type="text" id="txtfiltcstAddress">
+					</label>
+					<label class="container">City:
+						<input type="text" id="txtfiltcstCity">
+					</label>
+					<label class="container">State:
+						<input type="text" id="txtfiltcstState">
+					</label>
+					<label class="container">Zip Code:
+						<input type="text" id="txtfiltcstZipCode">
+					</label>
+					<label class="container">TIN:
+						<input type="text" id="txtfiltcstTIN">
+					</label>
+					<input type="button" id="btnfiltcstApply" value="Apply Filter">
+					<input type="button" id="btnfiltcstClear" value="Clear Values">
+				</div>
+			</div>
+			<!-- /Customer Filtering -->
+			<!-- Customer Column Visibility -->
+			<div class="tabAccordian">
+				<h3>Column Settings</h3>
+				<div id="colctlCustomers" class="columnVisibility">
+					<div class="head">Column Visibility</div>
+					<label class="container">Customer ID
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstCustomerID">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Customer Ticket
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstCustomerTicket">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Name
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstName">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Address
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstAddress">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">City
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstCity">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">State
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstState">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Zip Code
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstZipCode">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">TIN
+						<input type="checkbox" checked="checked"
+							id="chkcolctlcstTIN">
+						<span class="checkmark"></span>
+					</label>
+				</div>
+			</div>
+			<!-- /Customer Column Visibility -->
+		</div>
+		<!-- /Customers Panel. -->
+		<!-- Accounts Panel. -->
+		<div id="Accounts">
+			<p class="top0">Select an account to edit or view.</p>
+			<div id="grdAccounts" class="jsGrid"></div>
+			<!-- Account Filtering -->
+			<div class="tabAccordian">
+				<h3>Row Filter Settings</h3>
+				<div id="filtAccounts" class="rowFilter">
+					<div class="head">Row Filtering</div>
+					<p class="small">Enter all or part of a value to look for in each desired column.</p>
+					<label class="container">Account ID (Min):
+						<input type="text" id="txtfiltactAccountID.Min">
+					</label>
+					<label class="container">Account ID (Max):
+						<input type="text" id="txtfiltactAccountID.Max">
+					</label>
+					<label class="container">Ticket:
+						<input type="text" id="txtfiltactAccountTicket">
+					</label>
+					<label class="container">Status:
+						<input type="text" id="txtfiltactAccountStatus">
+					</label>
+					<label class="container">Balance Available (Min):
+						<input type="text" id="txtfiltactBalanceAvailable.Min">
+					</label>
+					<label class="container">Balance Available (Max):
+						<input type="text" id="txtfiltactBalanceAvailable.Max">
+					</label>
+					<label class="container">Balance Pending (Min):
+						<input type="text" id="txtfiltactBalancePending.Min">
+					</label>
+					<label class="container">Balance Pending (Max):
+						<input type="text" id="txtfiltactBalancePending.Max">
+					</label>
+					<label class="container">Branch:
+						<input type="text" id="txtfiltactBranchID">
+					</label>
+					<label class="container">Customer:
+						<input type="text" id="txtfiltactCustomerID">
+					</label>
+					<label class="container">Date Closed (Min):
+						<input type="text" id="txtfiltactDateClosed.Min">
+					</label>
+					<label class="container">Date Closed (Max):
+						<input type="text" id="txtfiltactDateClosed.Max">
+					</label>
+					<label class="container">Date Last Activity (Min):
+						<input type="text" id="txtfiltactDateLastActivity.Min">
+					</label>
+					<label class="container">Date Last Activity (Max):
+						<input type="text" id="txtfiltactDateLastActivity.Max">
+					</label>
+					<label class="container">Date Opened (Min):
+						<input type="text" id="txtfiltactDateOpened.Min">
+					</label>
+					<label class="container">Date Opened (Max):
+						<input type="text" id="txtfiltactDateOpened.Max">
+					</label>
+					<label class="container">Employee:
+						<input type="text" id="txtfiltactEmployeeID">
+					</label>
+					<input type="button" id="btnfiltactApply" value="Apply Filter">
+					<input type="button" id="btnfiltactClear" value="Clear Values">
+				</div>
+			</div>
+			<!-- /Account Filtering -->
+			<!-- Account Column Visibility -->
+			<div class="tabAccordian">
+				<h3>Column Settings</h3>
+				<div id="colctlAccounts" class="columnVisibility">
+					<div class="head">Column Visibility</div>
+					<label class="container">Account ID
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactAccountID">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Ticket
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactAccountTicket">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Status
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactAccountStatus">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Balance Available
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactBalanceAvailable">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Balance Pending
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactBalancePending">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Branch
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactBranchID">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Customer
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactCustomerID">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Date Closed
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactDateClosed">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Date Last Activity
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactDateLastActivity">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Date Opened
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactDateOpened">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Employee
+						<input type="checkbox" checked="checked"
+							id="chkcolctlactEmployeeID">
+						<span class="checkmark"></span>
+					</label>
+				</div>
+			</div>
+			<!-- /Account Column Visibility -->
+		</div>
+		<!-- /Accounts Panel. -->
+		<!-- Branches Panel. -->
+		<div id="Branches">
+			<p class="top0">Select a branch to edit or view.</p>
+			<div id="grdBranches" class="jsGrid"></div>
+			<!-- Branch Filtering -->
+			<div class="tabAccordian">
+				<h3>Row Filter Settings</h3>
+				<div id="filtBranches" class="rowFilter">
+					<div class="head">Row Filtering</div>
+					<p class="small">Enter all or part of a value to look for in each desired column.</p>
+					<label class="container">Branch ID (Min):
+						<input type="text" id="txtfiltbrcBranchID.Min">
+					</label>
+					<label class="container">Branch ID (Max):
+						<input type="text" id="txtfiltbrcBranchID.Max">
+					</label>
+					<label class="container">Ticket:
+						<input type="text" id="txtfiltbrcBranchTicket">
+					</label>
+					<label class="container">Name:
+						<input type="text" id="txtfiltbrcName">
+					</label>
+					<label class="container">Address:
+						<input type="text" id="txtfiltbrcAddress">
+					</label>
+					<label class="container">City:
+						<input type="text" id="txtfiltbrcCity">
+					</label>
+					<label class="container">State:
+						<input type="text" id="txtfiltbrcState">
+					</label>
+					<label class="container">Zip Code:
+						<input type="text" id="txtfiltbrcZipCode">
+					</label>
+					<input type="button" id="btnfiltbrcApply" value="Apply Filter">
+					<input type="button" id="btnfiltbrcClear" value="Clear Values">
+				</div>
+			</div>
+			<!-- /Branch Filtering -->
+			<!-- Branch Column Visibility -->
+			<div class="tabAccordian">
+				<h3>Column Settings</h3>
+				<div id="colctlBranches" class="columnVisibility">
+					<div class="head">Column Visibility</div>
+					<label class="container">Branch ID
+						<input type="checkbox" checked="checked"
+							id="chkcolctlbrcBranchID">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Ticket
+						<input type="checkbox" checked="checked"
+							id="chkcolctlbrcBranchTicket">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Name
+						<input type="checkbox" checked="checked"
+							id="chkcolctlbrcName">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Address
+						<input type="checkbox" checked="checked"
+							id="chkcolctlbrcAddress">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">City
+						<input type="checkbox" checked="checked"
+							id="chkcolctlbrcCity">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">State
+						<input type="checkbox" checked="checked"
+							id="chkcolctlbrcState">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Zip Code
+						<input type="checkbox" checked="checked"
+							id="chkcolctlbrcZipCode">
+						<span class="checkmark"></span>
+					</label>
+				</div>
+			</div>
+			<!-- /Branch Column Visibility -->
+		</div>
+		<!-- /Branches Panel. -->
+		<!-- Employees Panel. -->
+		<div id="Employees">
+			<p class="top0">Select an employee to edit or view.</p>
+			<div id="grdEmployees" class="jsGrid"></div>
+			<!-- Employee Filtering -->
+			<div class="tabAccordian">
+				<h3>Row Filter Settings</h3>
+				<div id="filtEmployees" class="rowFilter">
+					<div class="head">Row Filtering</div>
+					<p class="small">Enter all or part of a value to look for in each desired column.</p>
+					<label class="container">Display Name:
+						<input type="text" id="txtfiltempDisplayName">
+					</label>
+					<label class="container">Employee ID (Min):
+						<input type="text" id="txtfiltempEmployeeID.Min">
+					</label>
+					<label class="container">Employee ID (Max):
+						<input type="text" id="txtfiltempEmployeeID.Max">
+					</label>
+					<label class="container">Ticket:
+						<input type="text" id="txtfiltempEmployeeTicket">
+					</label>
+					<label class="container">First Name:
+						<input type="text" id="txtfiltempFirstName">
+					</label>
+					<label class="container">Last Name:
+						<input type="text" id="txtfiltempLastName">
+					</label>
+					<label class="container">Date Started (Min):
+						<input type="text" id="txtfiltempDateStarted.Min">
+					</label>
+					<label class="container">Date Started (Max):
+						<input type="text" id="txtfiltempDateStarted.Max">
+					</label>
+					<label class="container">Date Ended (Min):
+						<input type="text" id="txtfiltempDateEnded.Min">
+					</label>
+					<label class="container">Date Ended (Max):
+						<input type="text" id="txtfiltempDateEnded.Max">
+					</label>
+					<label class="container">Title:
+						<input type="text" id="txtfiltempTitle">
+					</label>
+					<label class="container">TIN:
+						<input type="text" id="txtfiltempTIN">
+					</label>
+					<input type="button" id="btnfiltempApply" value="Apply Filter">
+					<input type="button" id="btnfiltempClear" value="Clear Values">
+				</div>
+			</div>
+			<!-- /Employee Filtering -->
+			<!-- Employee Column Visibility -->
+			<div class="tabAccordian">
+				<h3>Column Settings</h3>
+				<div id="colctlEmployees" class="columnVisibility">
+					<div class="head">Column Visibility</div>
+					<label class="container">Display Name
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempDisplayName">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Employee ID
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempEmployeeID">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Ticket
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempEmployeeTicket">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">First Name
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempFirstName">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Last Name
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempLastName">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Date Started
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempDateStarted">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Date Ended
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempDateEnded">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Title
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempTitle">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">TIN
+						<input type="checkbox" checked="checked"
+							id="chkcolctlempTIN">
+						<span class="checkmark"></span>
+					</label>
+				</div>
+			</div>
+			<!-- /Employee Column Visibility -->
+		</div>
+		<!-- /Employees Panel. -->
+	</div>
+</body>
+</html>

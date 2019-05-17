@@ -29,9 +29,14 @@ namespace TargetScript
 		ConvertToTemplate,
 		/// <summary>
 		/// Load the project and take inventory on all of the variables and
-		/// commands.
+		/// commands, per template.
 		/// </summary>
-		InventoryProject,
+		InventoryDetail,
+		/// <summary>
+		/// Load the project and take inventory on all of the variables and
+		/// commands, summarizing all elements.
+		/// </summary>
+		InventorySummary,
 		/// <summary>
 		/// List the node placement in the specified project.
 		/// </summary>

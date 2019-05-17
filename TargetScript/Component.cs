@@ -89,16 +89,62 @@ namespace TargetScript
 		}
 		//*-----------------------------------------------------------------------*
 
+		//*-----------------------------------------------------------------------*
+		//*	GetElement																														*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Return the specified element from the component collection.
+		/// </summary>
+		/// <param name="component">
+		/// Reference to the component in which to find the element. If null, the
+		/// first matching element in all components will be found.
+		/// </param>
+		/// <param name="elementName">
+		/// Name of the element to retrieve.
+		/// </param>
+		/// <returns>
+		/// Reference to the selected element, if found. Otherwise, null.
+		/// </returns>
+		public AttributeCollection GetElement(ComponentItem component,
+			string elementName)
+		{
+			AttributeCollection result = null;
+
+			if(elementName?.Length > 0)
+			{
+				if(component != null)
+				{
+					//	Specific component is selected.
+					result = component.Attributes.
+						GetCollection("[Name]=" + elementName);
+				}
+				else
+				{
+					//	Component is unknown. Select the first matching element.
+					foreach(ComponentItem item in this)
+					{
+						result = item.Attributes.GetCollection("[Name]=" + elementName);
+						if(result != null)
+						{
+							break;
+						}
+					}
+				}
+			}
+			return result;
+		}
+		//*-----------------------------------------------------------------------*
+
 	}
 	//*-------------------------------------------------------------------------*
 
 	//*-------------------------------------------------------------------------*
-	//*	ComponentEntryFollower																									*
+	//*	ComponentElementFollower																									*
 	//*-------------------------------------------------------------------------*
 	/// <summary>
-	/// Tracking class for component / entry pairs.
+	/// Tracking class for component / element pairs.
 	/// </summary>
-	public class ComponentEntryFollower
+	public class ComponentElementFollower
 	{
 		//*************************************************************************
 		//*	Private																																*
@@ -113,27 +159,27 @@ namespace TargetScript
 		//*	_Constructor																													*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
-		/// Create a new Instance of the ComponentEntryFollower Item.
+		/// Create a new Instance of the ComponentElementFollower Item.
 		/// </summary>
-		public ComponentEntryFollower()
+		public ComponentElementFollower()
 		{
 		}
 		//*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*
 		/// <summary>
-		/// Create a new Instance of the ComponentEntryFollower Item.
+		/// Create a new Instance of the ComponentElementFollower Item.
 		/// </summary>
 		/// <param name="component">
 		/// A reference to the component being tracked.
 		/// </param>
-		/// <param name="entry">
+		/// <param name="element">
 		/// A reference to the currently selected attribute collection for the
 		/// component.
 		/// </param>
-		public ComponentEntryFollower(ComponentItem component,
-			AttributeCollection entry)
+		public ComponentElementFollower(ComponentItem component,
+			AttributeCollection element)
 		{
 			mComponent = component;
-			mEntry = entry;
+			mElement = element;
 		}
 		//*-----------------------------------------------------------------------*
 
@@ -152,17 +198,17 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	Entry																																	*
+		//*	Element																																*
 		//*-----------------------------------------------------------------------*
-		private AttributeCollection mEntry = null;
+		private AttributeCollection mElement = null;
 		/// <summary>
 		/// Get/Set a reference to the collection of attributes being followed in
 		/// this instance.
 		/// </summary>
-		public AttributeCollection Entry
+		public AttributeCollection Element
 		{
-			get { return mEntry; }
-			set { mEntry = value; }
+			get { return mElement; }
+			set { mElement = value; }
 		}
 		//*-----------------------------------------------------------------------*
 
@@ -201,20 +247,20 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	EntryExists																														*
+		//*	ElementExists																													*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
-		/// Return a value indicating whether the specified entry exists in the
+		/// Return a value indicating whether the specified element exists in the
 		/// fields.
 		/// </summary>
 		/// <param name="name">
-		/// Name of the entry to search for.
+		/// Name of the element to search for.
 		/// </param>
 		/// <returns>
 		/// A value indicating whether an attribute of the specified name was found
 		/// in at least one of the metadata fields.
 		/// </returns>
-		public bool EntryExists(string name)
+		public bool ElementExists(string name)
 		{
 			string nLower = "";
 			bool result = false;
@@ -224,7 +270,7 @@ namespace TargetScript
 				nLower = name.ToLower();
 				foreach(AttributeCollection collection in mAttributes)
 				{
-					//	The base object doesn't count as an entry, but the definition of
+					//	The base object doesn't count as an element, but the definition of
 					//	the object itself.
 					if(!collection.Exists(x =>
 						x.Name.ToLower() == "datatype" &&
@@ -242,26 +288,25 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	GetEntryCount																													*
+		//*	GetElementCount																												*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
-		/// Return the count of non-object entries in the collection of attributes.
+		/// Return the count of all elements in the attribute catalog.
 		/// </summary>
 		/// <returns>
-		/// The count of non-base entries in the catalog.
+		/// The count of all metadata elements found in the catalog.
 		/// </returns>
-		public int GetEntryCount()
+		public int GetElementCount()
 		{
 			int result = 0;
+
 			foreach(AttributeCollection collection in mAttributes)
 			{
-				//	The base object doesn't count as an entry, but the definition of
-				//	the object itself.
-				if(!collection.Exists(x =>
-					x.Name.ToLower() == "datatype" &&
-					x.Value.ToLower() == "baseobject"))
+				if(collection.Exists(x => x.Name.ToLower() == "name"))
 				{
-					result++;
+					result += collection.Count(x =>
+					(x.Name.ToLower() != "datatype" ||
+					x.Value.ToLower() != "baseobject"));
 				}
 			}
 			return result;
@@ -269,20 +314,20 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
-		//*	GetEntryNames																													*
+		//*	GetElementNames																												*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
-		/// Return all known entry names from the collections.
+		/// Return all known element names from the collections.
 		/// </summary>
 		/// <returns>
 		/// Delimited list of all metadata field names found in the catalog.
 		/// </returns>
-		public string GetEntryNames()
+		public string GetElementNames()
 		{
 			StringBuilder result = new StringBuilder();
 			foreach(AttributeCollection collection in mAttributes)
 			{
-				//	The base object doesn't count as an entry, but the definition of
+				//	The base object doesn't count as an element, but the definition of
 				//	the object itself.
 				if(!collection.Exists(x =>
 					x.Name.ToLower() == "datatype" &&
@@ -319,22 +364,6 @@ namespace TargetScript
 		{
 			return
 				mAttributes.GetValueForExpression(returnAttributeName, expression);
-		}
-		//*-----------------------------------------------------------------------*
-
-		//*-----------------------------------------------------------------------*
-		//*	GetElementCount																												*
-		//*-----------------------------------------------------------------------*
-		/// <summary>
-		/// Return the count of all elements in the catalog.
-		/// </summary>
-		/// <returns>
-		/// The count of all elements found in the catalog.
-		/// </returns>
-		public int GetElementCount()
-		{
-			int result = 0;
-			return result;
 		}
 		//*-----------------------------------------------------------------------*
 
@@ -451,7 +480,7 @@ namespace TargetScript
 					}
 					else if(element.StartsWith("{"))
 					{
-						//	One entry object.
+						//	One element object.
 						entry =
 							JsonConvert.DeserializeObject<AttributeCollection>(element);
 						result.Attributes.Add(entry);

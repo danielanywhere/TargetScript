@@ -1,0 +1,8 @@
+<!-- Tab Strip -->
+<ul>
+	<li><a href="#Accounts"><span>Accounts</span></a></li>
+	<li><a href="#Branches"><span>Branches</span></a></li>
+	<li><a href="#Customers"><span>Customers</span></a></li>
+	<li><a href="#Employees"><span>Employees</span></a></li>
+</ul>
+<!-- /Tab Strip -->

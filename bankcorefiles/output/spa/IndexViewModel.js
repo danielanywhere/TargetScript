@@ -744,7 +744,9 @@ $("#grdAccounts").jsGrid(
 	fields: [
 		{
 			name: "AccountTicket",
-			title: "Account Ticket",
+			title: "Ticket",
+			editing: "false",
+			width: 150,
 			type: "text"
 		},
 		{
@@ -756,8 +758,18 @@ $("#grdAccounts").jsGrid(
 			type: "select"
 		},
 		{
+			name: "BalanceAvailable",
+			title: "Balance Available",
+			type: "money"
+		},
+		{
+			name: "BalancePending",
+			title: "Balance Pending",
+			type: "money"
+		},
+		{
 			name: "BranchID",
-			title: "Branch ID",
+			title: "Branch",
 			items: branchesViewModel.branches,
 			valueField: "BranchID",
 			textField: "Name",
@@ -765,10 +777,11 @@ $("#grdAccounts").jsGrid(
 		},
 		{
 			name: "CustomerID",
-			title: "Customer ID",
+			title: "Customer",
 			items: customersViewModel.customers,
 			valueField: "CustomerID",
 			textField: "Name",
+			width: 150,
 			type: "select"
 		},
 		{
@@ -788,7 +801,7 @@ $("#grdAccounts").jsGrid(
 		},
 		{
 			name: "EmployeeID",
-			title: "Employee ID",
+			title: "Employee",
 			items: employeesViewModel.employees,
 			valueField: "EmployeeID",
 			expression: "{LastName}, {FirstName}",
@@ -825,11 +838,14 @@ $("#grdBranches").jsGrid(
 		{
 			name: "BranchTicket",
 			title: "Ticket",
+			editing: "False",
+			width: 150,
 			type: "text"
 		},
 		{
 			name: "Name",
 			title: "Name",
+			editing: "False",
 			type: "text"
 		},
 		{
@@ -862,7 +878,6 @@ $("#grdBranches").jsGrid(
 /*---------------------------------------------------------------------------*/
 $("#grdCustomers").jsGrid(
 {
-	height: "70vh",
 	width: "100%",
 
 	filtering: false,
@@ -883,11 +898,14 @@ $("#grdCustomers").jsGrid(
 		{
 			name: "CustomerTicket",
 			title: "Customer Ticket",
+			editing: "False",
+			width: 150,
 			type: "text"
 		},
 		{
 			name: "Name",
 			title: "Name",
+			width: 150,
 			type: "text"
 		},
 		{
@@ -944,18 +962,16 @@ $("#grdEmployees").jsGrid(
 
 	fields: [
 		{
+			name: "ExployeeID",
+			title: "Display Name",
+			expression: "{LastName}, {FirstName}",
+			type: "expression"
+		},
+		{
 			name: "EmployeeTicket",
 			title: "Ticket",
-			type: "text"
-		},
-		{
-			name: "FirstName",
-			title: "First Name",
-			type: "text"
-		},
-		{
-			name: "LastName",
-			title: "Last Name",
+			editing: "False",
+			width: 150,
 			type: "text"
 		},
 		{
@@ -973,11 +989,15 @@ $("#grdEmployees").jsGrid(
 			title: "Title",
 			type: "text"
 		},
+		{
+			name: "TIN",
+			title: "TIN",
+			type: "text"
+		},
 		{ type: "control" }
 	]
 });
 /*---------------------------------------------------------------------------*/
-
 
 /*---------------------------------------------------------------------------*/
 /* Get Server Data                                                           */
@@ -1065,7 +1085,7 @@ loadData();
 								if(filterName == fields[fIndex].Title)
 								{
 									// Assign the same search to the filter for the base column.
-									externalFilters[fields[fIndex].name] = filterValue;
+									externalFilters = filterValue;
 									break;
 								}
 							}
@@ -1339,7 +1359,7 @@ loadData();
 								if(filterName == fields[fIndex].Title)
 								{
 									// Assign the same search to the filter for the base column.
-									externalFilters[fields[fIndex].name] = filterValue;
+									externalFilters = filterValue;
 									break;
 								}
 							}
@@ -1616,7 +1636,7 @@ loadData();
 								if(filterName == fields[fIndex].Title)
 								{
 									// Assign the same search to the filter for the base column.
-									externalFilters[fields[fIndex].name] = filterValue;
+									externalFilters = filterValue;
 									break;
 								}
 							}
@@ -1840,15 +1860,12 @@ loadData();
 					return (!filter.EmployeeTicket ||
 						employee.EmployeeTicket.toLowerCase().
 						indexOf(filter.EmployeeTicket.toLowerCase()) > -1) &&
-						(!filter.FirstName ||
-						employee.FirstName.toLowerCase().
-						indexOf(filter.FirstName.toLowerCase()) > -1) &&
-						(!filter.LastName ||
-						employee.LastName.toLowerCase().
-						indexOf(filter.LastName.toLowerCase()) > -1) &&
 						(!filter.Title ||
 						employee.Title.toLowerCase().
-						indexOf(filter.Title.toLowerCase()) > -1);
+						indexOf(filter.Title.toLowerCase()) > -1) &&
+						(!filter.TIN ||
+						employee.TIN.toLowerCase().
+						indexOf(filter.TIN.toLowerCase()) > -1);
 				});
 			}
 			else if(grid.jsGrid("option", "externalFilters"))
@@ -1884,7 +1901,7 @@ loadData();
 								if(filterName == fields[fIndex].Title)
 								{
 									// Assign the same search to the filter for the base column.
-									externalFilters[fields[fIndex].name] = filterValue;
+									externalFilters = filterValue;
 									break;
 								}
 							}
@@ -2092,22 +2109,22 @@ loadData();
 /*---------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------*/
-/* Account Models                                                        */
+/* Account Models                                                            */
 /*---------------------------------------------------------------------------*/
 	accountsViewModel.accounts = [];
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
-/* Branch Models                                                        */
+/* Branch Models                                                             */
 /*---------------------------------------------------------------------------*/
 	branchesViewModel.branches = [];
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
-/* Customer Models                                                        */
+/* Customer Models                                                           */
 /*---------------------------------------------------------------------------*/
 	customersViewModel.customers = [];
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
-/* Employee Models                                                        */
+/* Employee Models                                                           */
 /*---------------------------------------------------------------------------*/
 	employeesViewModel.employees = [];
 /*---------------------------------------------------------------------------*/

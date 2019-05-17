@@ -6,6 +6,7 @@ TargetScript {/project:{Filename}|/createtemplate:{Filename}}
   [/mode:{ModeName}][/output:{Filename}]
   [/projectPath:{WorkingPath}]
   [/tabChar:{T|S}][/tabCount:{Integer}]
+  [/verbose]
   [/wait]
   [/?]
 
@@ -13,15 +14,19 @@ TargetScript {/project:{Filename}|/createtemplate:{Filename}}
   Filename       - Name of the project, source, or output file to open or save.
   mode           - Set the operating mode.
   ModeName       - One of the following choices.
-                   InventoryProject - Load the project contents and take
-                     inventory on all of the variable names and commands.
-																			ListNodes - List node placement within the specified
-																			  project.
+                   InventoryDetail - Load the project contents and take
+                     inventory on all of the variable names and commands, per
+                     template.
+                   InventorySummary - Load the project contents and take
+                     inventory on all of the variable names and commsnds, using
+                     summary.
+                   ListNodes - List node placement within the specified
+                     project.
                    RenderProject - Render the specified project file. (default)
   output         - Only valid in the following conditions.
                      Output filename with /createtemplate.
                      Report filename with /mode:InventoryProject.
-																					Report filename with /mode:ListNodes.
+                     Report filename with /mode:ListNodes.
   project        - Process a JSON project file.
   projectPath    - The working directory of this instance. If not
                    specified here or in the project filename, the current
@@ -30,4 +35,5 @@ TargetScript {/project:{Filename}|/createtemplate:{Filename}}
   tabChar        - Tab character to use. 'T' for Tabs / 'S' for Spaces.
   tabCount       - Count of characters to apply for each tab encountered.
                    Only useful with space-type tab character.
+  verbose        - Display verbose output while processing values.
   wait           - Wait for a user keypress after the application ends.

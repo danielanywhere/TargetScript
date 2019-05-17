@@ -110,6 +110,39 @@ namespace TargetScript
 		//*-----------------------------------------------------------------------*
 
 		//*-----------------------------------------------------------------------*
+		//*	GetCollectionWithMember																								*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Find and return the first collection containing the specified member.
+		/// </summary>
+		/// <param name="attributeName">
+		/// Name of the attribute to find.
+		/// </param>
+		/// <returns>
+		/// The first matching collection, if found. Otherwise, null.
+		/// </returns>
+		public AttributeCollection GetCollectionWithMember(string attributeName)
+		{
+			string nLower = "";
+			AttributeCollection result = null;
+
+			if(attributeName?.Length > 0)
+			{
+				nLower = attributeName.ToLower();
+				foreach(AttributeCollection collection in this)
+				{
+					if(collection.Exists(x => x.Name.ToLower() == nLower))
+					{
+						result = collection;
+						break;
+					}
+				}
+			}
+			return result;
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
 		//*	GetValueForExpression																									*
 		//*-----------------------------------------------------------------------*
 		/// <summary>
@@ -355,11 +388,6 @@ namespace TargetScript
 				result = new AttributeItem();
 			}
 			result.Name = name;
-			//if(result.Value.Length > 0)
-			//{
-			//	result.Value += " ";
-			//}
-			//result.Value += value;
 			result.Value = value;
 			this.Add(result);
 			return result;
@@ -421,6 +449,38 @@ namespace TargetScript
 			if(result != null)
 			{
 				result.Value = value;
+			}
+			return result;
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*	CloneItems																														*
+		//*-----------------------------------------------------------------------*
+		/// <summary>
+		/// Return a value-wise clone of all items in the specified collection.
+		/// </summary>
+		/// <param name="attributes">
+		/// Collection of attributes to clone.
+		/// </param>
+		/// <returns>
+		/// List of cloned attribute items.
+		/// </returns>
+		public static List<AttributeItem> CloneItems(
+			AttributeCollection attributes)
+		{
+			AttributeItem item = null;
+			List<AttributeItem> result = new List<AttributeItem>();
+
+			if(attributes?.Count > 0)
+			{
+				foreach(AttributeItem attribute in attributes)
+				{
+					item = new AttributeItem();
+					item.Name = attribute.Name;
+					item.Value = attribute.Value;
+					result.Add(item);
+				}
 			}
 			return result;
 		}

@@ -1,10 +1,11 @@
 [
 	{
 		"TypeName": "Template",
-		"Name": "TestConfigSet",
+		"Name": "TestSetValue",
 		"Definition":
 		[
-			"{ConfigSet(ComponentPages:{ComponentPagesSorted})}"
+			"{SetValue(Pages:{SortDesc({ComponentPagesSorted})})}",
+			"{Print({Pages})}"
 		]
 	},
 	{

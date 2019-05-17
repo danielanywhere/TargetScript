@@ -8,7 +8,7 @@
 	"{",
 	"{IncIndent}",
 		"{IncIndent}",
-			"{LoopStart(name:internalFieldFilter;level:entry;expression:[GridItemEditor]=text)}",
+			"{LoopStart(name:internalFieldFilter;level:element;expression:[GridItemEditor]=text)}",
 			"{ConditionStart(name:internalFieldFilterPFirst;expression:{isFirst})}",
 			"{DecIndent}",
 		"return (!filter.[Name] ||",

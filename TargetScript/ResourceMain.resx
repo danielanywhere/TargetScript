@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActionNodeLineLoopPattern" xml:space="preserve">
-    <value>(?i:(?s:(?&lt;loop&gt;\{(?&lt;type&gt;(Loop|Condition|Config))(?&lt;side&gt;(Start|End|Set))\s*\((?&lt;params&gt;.*)\s*\)\s*\})))</value>
+    <value>(?i:(?s:(?&lt;loop&gt;\{(?&lt;type&gt;(Condition|Continue|Loop|SetConfig))(?&lt;side&gt;(Start|End)){0,1}\((?&lt;params&gt;.*?)\)\})))</value>
     <comment>Regular expression pattern for enumerating loop and condition boundaries on a single line.</comment>
   </data>
   <data name="ActionNodeResolveVariablePattern" xml:space="preserve">
@@ -130,7 +130,7 @@
     <comment>Regular expression pattern for partitioning keywords in the Attribute Catalog.</comment>
   </data>
   <data name="CommandEvalPattern" xml:space="preserve">
-    <value>(?i:(?&lt;command&gt;\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)\((?&lt;params&gt;[0-9a-z-_\.\:\;,\\/\*\+]*)\)\}))</value>
+    <value>(?i:(?&lt;command&gt;\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)\((?&lt;params&gt;[^\{\}\[\]\(\)]*)\)\}))</value>
     <comment>Regular expression for evaluating inline commands.</comment>
   </data>
   <data name="CommandSpecialPattern" xml:space="preserve">
@@ -141,9 +141,85 @@
     <value>Copyright (c) 2018, 2019. Daniel Patterson, MCSD (danielanywhere)</value>
     <comment>All content copyright 2018, 2019. Daniel Patterson, MCSD (danielanywhere)</comment>
   </data>
+  <data name="ExpressionEscapeCPattern" xml:space="preserve">
+    <value>(?i:(?&lt;el&gt;\{\{(?=\{*))(?&lt;content&gt;[a-z]+[0-9a-z-_]*){0,1}(?&lt;er&gt;(?&lt;=\}*)\}\}))</value>
+    <comment>Regular expression for finding escaped curly braces.</comment>
+  </data>
+  <data name="ExpressionEscapeCReplacement" xml:space="preserve">
+    <value>^~${content}~^</value>
+    <comment>Replacement pattern for hiding escaped curly braces.</comment>
+  </data>
+  <data name="ExpressionEscapeDPattern" xml:space="preserve">
+    <value>(?i:(?&lt;el&gt;\^\~)(?&lt;content&gt;[a-z]+[0-9a-z-_]*){0,1}(?&lt;er&gt;\~\^))</value>
+    <comment>Regular expression for restoring escaped curly braces.</comment>
+  </data>
+  <data name="ExpressionEscapeDReplacement" xml:space="preserve">
+    <value>{{${content}}}</value>
+    <comment>Replacement pattern for restoring escaped curly braces.</comment>
+  </data>
+  <data name="ExpressionEscapeSPattern" xml:space="preserve">
+    <value>(?i:(?&lt;el&gt;\[\[(?=\[*))(?&lt;content&gt;[a-z]+[0-9a-z-_\:]*){0,1}(?&lt;er&gt;(?&lt;=\]*)\]\]))</value>
+    <comment>Regular expression for finding escaped square braces.</comment>
+  </data>
+  <data name="ExpressionEscapeSReplacement" xml:space="preserve">
+    <value>^|${content}|^</value>
+    <comment>Replacement pattern for hiding escaped square braces.</comment>
+  </data>
+  <data name="ExpressionEscapeTPattern" xml:space="preserve">
+    <value>(?i:(?&lt;el&gt;\^\|)(?&lt;content&gt;[a-z]+[0-9a-z-_\:]*){0,1}(?&lt;er&gt;\|\^))</value>
+    <comment>Replacement pattern for restoring escaped square braces.</comment>
+  </data>
+  <data name="ExpressionEscapeTReplacement" xml:space="preserve">
+    <value>[[${content}]]</value>
+    <comment>Replacement pattern for restoring escaped square braces.</comment>
+  </data>
   <data name="ExpressionEvalStringPattern" xml:space="preserve">
     <value>(?&lt;key&gt;\[[^\]]+\])|(?&lt;key&gt;\{[^\}]+\})|(?&lt;key&gt;\".*(?&lt;!\\)\")|(AND|OR|NOT|XOR)|(?&lt;key&gt;\w+)</value>
     <comment>Regular expression for retrieving string-based names and values.</comment>
+  </data>
+  <data name="ExpressionKeywordCommandPattern" xml:space="preserve">
+    <value>(?i:(?&lt;command&gt;\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)(\((?&lt;params&gt;.*?)\)){0,1}\}))</value>
+    <comment>Regular expression for testing the pattern on a command entry.</comment>
+  </data>
+  <data name="ExpressionKeywordConfigPattern" xml:space="preserve">
+    <value>(?i:\{(?&lt;name&gt;[a-z]+[0-9a-z-_]*)\})</value>
+    <comment>Regular expression pattern for testing to see if the keyword is a configuration value.</comment>
+  </data>
+  <data name="ExpressionKeywordMetadataPattern" xml:space="preserve">
+    <value>(?i:\[(?&lt;name&gt;[a-z]+[0-9a-z-_\:]*)\])</value>
+    <comment>Regular expresison pattern for testing to see if the keyword is a metadata value.</comment>
+  </data>
+  <data name="ExpressionKeywordNamePattern" xml:space="preserve">
+    <value>(?i:(\{|\[)(?&lt;name&gt;[a-z]+[0-9a-z-_]*))</value>
+    <comment>Regular expression for finding the name of a keyword node.</comment>
+  </data>
+  <data name="ExpressionOperatorPattern" xml:space="preserve">
+    <value>(?i:(?&lt;operator&gt;AND|OR|NOT|XOR))</value>
+    <comment>Regular expression pattern for testing to see whether a word is an operator keyword.</comment>
+  </data>
+  <data name="ExpressionParameterPattern" xml:space="preserve">
+    <value>\((?&lt;tag&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+))\)</value>
+    <comment>Regular expression pattern used to identify the tag for parameters.</comment>
+  </data>
+  <data name="ExpressionPlaceholderPattern" xml:space="preserve">
+    <value>(?&lt;placeholder&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+))</value>
+    <comment>Regular expression pattern for listing the level placeholders. Index is the child node index at which the argument or value is found. Id is the absolute index of the value within this expression, and is used for attributes.</comment>
+  </data>
+  <data name="ExpressionSingleWord" xml:space="preserve">
+    <value>(?i:^(?&lt;word&gt;[a-z]+[0-9a-z-_]*)$)</value>
+    <comment>Regular expression for checking to see if the expression text is a single word.</comment>
+  </data>
+  <data name="ExpressionTagOnlyPattern" xml:space="preserve">
+    <value>^(?&lt;tag&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+))$</value>
+    <comment>Regular expression pattern for testing to see if the entire string is a tag.</comment>
+  </data>
+  <data name="ExpressionTagPattern" xml:space="preserve">
+    <value>(?&lt;tag&gt;\@(?&lt;index&gt;\d+)\#(?&lt;id&gt;\d+))</value>
+    <comment>Regular expression general tag pattern.</comment>
+  </data>
+  <data name="ExpressionWordPattern" xml:space="preserve">
+    <value>(?i:(?&lt;word&gt;[a-z]+[0-9a-z]*))</value>
+    <comment>Regular expression for retrieving complete words.</comment>
   </data>
   <data name="InnerQuotesOnlyPattern" xml:space="preserve">
     <value>(?&lt;content&gt;\".*?(?&lt;!\\)\")</value>
@@ -154,7 +230,7 @@
     <comment>Regular expression containing all inner variable patterns.</comment>
   </data>
   <data name="InnerVariablesNoQuotePattern" xml:space="preserve">
-    <value>(?i:(?&lt;content&gt;(?&lt;!\{)\{[a-z]+[0-9a-z-_]*\}(?!\}))|(?&lt;content&gt;(?&lt;!\[)\[[a-z]+[0-9a-z-_]*\](?!\]))|(AND|OR|NOT|XOR)|(?&lt;!(\{|\[)[0-9a-z-_]*)(?&lt;content&gt;[a-z]+[a-z0-9-_]*)(?![a-z0-9-_]*\s*\()(?![0-9a-z-_]*(\]|\})))</value>
+    <value>(?i:(?&lt;content&gt;(?&lt;!\{)\{[a-z]+[0-9a-z-_]*\}(?!\}))|(?&lt;content&gt;(?&lt;!\[)\[[a-z]+[0-9a-z-_\:]*\](?!\]))|(AND|OR|NOT|XOR)|(?&lt;!(\{|\[)[0-9a-z-_]*)(?&lt;content&gt;[a-z]+[a-z0-9-_]*)(?![a-z0-9-_]*\s*\()(?![0-9a-z-_]*(\]|\})))</value>
     <comment>Regular expression for finding all patterns except quotes.</comment>
   </data>
   <data name="InnerVariablesOnlyPattern" xml:space="preserve">
@@ -190,7 +266,7 @@
     <comment>Regular expression for finding the tab command.</comment>
   </data>
   <data name="PostProcessingUnescapeBracePattern" xml:space="preserve">
-    <value>(?i:\{(?&lt;variable&gt;\{[a-z]+[0-9a-z-_]*\})\}|\[(?&lt;variable&gt;\[[a-z]+[0-9a-z-_]*\])\])</value>
+    <value>(?i:\{(?&lt;variable&gt;\{.*?\})\}|\[(?&lt;variable&gt;\[.*?\])\])</value>
     <comment>Regular expression for unescaping double braces.</comment>
   </data>
   <data name="PostProcessingUnescapeBraceReplacement" xml:space="preserve">
@@ -201,16 +277,41 @@
     <value>Convert easy-to-read, easy-to-maintain JSON declarations to finished code.
 
 Syntax:
-TargetScript /project:{Filename}
+TargetScript {/project:{Filename}|/createtemplate:{Filename}}
+  [/mode:{ModeName}][/output:{Filename}]
   [/projectPath:{WorkingPath}]
-  [/report:{Filename}]
+  [/tabChar:{T|S}][/tabCount:{Integer}]
+  [/verbose]
   [/wait]
+  [/?]
 
-  projectPath - The working directory of this instance. If not
-                specified here or in the project filename, the current
-                command prompt path from which the application was
-                started will be inferred.
-  wait        - Wait for a user keypress after the application ends.</value>
+  createtemplate - Open a text-based source file and convert it to template.
+  Filename       - Name of the project, source, or output file to open or save.
+  mode           - Set the operating mode.
+  ModeName       - One of the following choices.
+                   InventoryDetail - Load the project contents and take
+                     inventory on all of the variable names and commands, per
+                     template.
+                   InventorySummary - Load the project contents and take
+                     inventory on all of the variable names and commsnds, using
+                     summary.
+                   ListNodes - List node placement within the specified
+                     project.
+                   RenderProject - Render the specified project file. (default)
+  output         - Only valid in the following conditions.
+                     Output filename with /createtemplate.
+                     Report filename with /mode:InventoryProject.
+                     Report filename with /mode:ListNodes.
+  project        - Process a JSON project file.
+  projectPath    - The working directory of this instance. If not
+                   specified here or in the project filename, the current
+                   command prompt path from which the application was
+                   started will be inferred.
+  tabChar        - Tab character to use. 'T' for Tabs / 'S' for Spaces.
+  tabCount       - Count of characters to apply for each tab encountered.
+                   Only useful with space-type tab character.
+  verbose        - Display verbose output while processing values.
+  wait           - Wait for a user keypress after the application ends.</value>
     <comment>Application Syntax</comment>
   </data>
   <data name="ToolsCommandsPattern" xml:space="preserve">

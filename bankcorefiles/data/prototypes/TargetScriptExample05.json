@@ -4,7 +4,7 @@
 		"Name": "HTMLSinglePageApp",
 		"Definition":
 		[
-			"{ConfigSet({Name}.OutputFilename:../output/Index.html)}",
+			"{SetConfig({Name}.OutputFilename:../output/Index.html)}",
 			"{Include(Header.json)}",
 			"{Include(BodyPrefix.json)}",
 			"{Include(Body.json)}",

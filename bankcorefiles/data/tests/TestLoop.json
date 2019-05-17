@@ -6,8 +6,8 @@
 		[
 			"{LoopStart(name:main;level:component;source:{SortDesc({ComponentPages})})}",
 			"{Print({ComponentName})}",
-			"{LoopStart(name:entry;level:entry;source:{ObjectName}ID,{ObjectName}Ticket)}",
-			"{Print({EntryName})}",
+			"{LoopStart(name:entry;level:element;source:{ObjectName}ID,{ObjectName}Ticket)}",
+			"{Print( {ElementName}: Is Data? [IsData])}",
 			"{LoopEnd(name:entry)}",
 			"{LoopEnd(name:main)}"
 		]

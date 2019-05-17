@@ -1,16 +1,14 @@
 [
 	{
 		"TypeName": "Template",
-		"Name": "HTMLSinglePageApp",
+		"Name": "SQLTableCreator",
 		"Definition":
 		[
-			"{Include(html/Header.json)}",
-			"{Include(html/BodyPrefix.json)}",
-			"{Include(html/Body.json)}",
-			"{Include(html/BodySuffix.json)}",
-			"{Include(html/Footer.json)}",
-			"{SaveFile(../output/spa/Index.html)}",
-			"{ClearRenderedContent()}"
+			"{LoopStart(name:sqlTableCreator;level:component;source:{Sort({ComponentPages})})}",
+			"{Include(sql/SqlTableCreator.json)}",
+			"{SaveFile(../output/sql/{ObjectName}-Table.sql)}",
+			"{ClearRenderedContent()}",
+			"{LoopEnd(name:sqlTableCreator)}"
 		]
 	},
 	{

@@ -6,8 +6,8 @@
 		[
 			"{LoopStart(name:main;level:component;source:{SortDesc({ComponentPages})})}",
 			"This is a line from the {Plural({Lower({ObjectName})})}.",
-			"{LoopStart(name:entry;level:entry;source:{ObjectName}ID,{ObjectName}Ticket)}",
-			" Here is the {EntryName} entry.",
+			"{LoopStart(name:entry;level:element;source:{ObjectName}ID,{ObjectName}Ticket)}",
+			" Here is the {ElementName} entry.",
 			"{LoopEnd(name:entry)}",
 			"{LoopEnd(name:main)}",
 			"{SaveFile(output/{TemplateName}Output.txt)}"

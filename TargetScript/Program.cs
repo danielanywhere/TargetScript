@@ -49,6 +49,11 @@ namespace TargetScript
 			Program prg = new Program();  //	Initialized instance.
 
 			Console.WriteLine("TargetScript.exe");
+			if(args.Length == 0)
+			{
+				bError = true;
+				message.Append("No project specified...\r\n");
+			}
 			foreach(string arg in args)
 			{
 				lowerArg = arg.ToLower();
@@ -109,6 +114,11 @@ namespace TargetScript
 				{
 					int.TryParse(arg.Substring(key.Length), out iValue);
 					prg.mTabCount = iValue;
+				}
+				key = "/verbose";
+				if(lowerArg == key)
+				{
+					prg.mVerbose = true;
 				}
 				key = "/wait";
 				if(lowerArg.StartsWith(key))
@@ -301,8 +311,9 @@ namespace TargetScript
 								ofile.Name));
 						}
 						break;
-					case ProgramModeTypeEnum.InventoryProject:
-						Console.WriteLine("Mode: Create inventory report from project...");
+					case ProgramModeTypeEnum.InventoryDetail:
+						Console.WriteLine(
+							"Mode: Create inventory detail report from project...");
 						JsonTemplateCollection.Parse(content, mProjectPath,
 							mConfigurations, mComponents, mTemplates);
 						tree.Configurations = mConfigurations;
@@ -311,8 +322,25 @@ namespace TargetScript
 						tree.RenderedContent.Clear();
 						foreach(TemplateItem template in mTemplates)
 						{
-							tree.InventoryTemplate(template);
+							tree.InventoryDetail(template);
 						}
+						if(tree.SaveFile(ofile))
+						{
+							Console.WriteLine(
+								string.Format(
+								"File {0} saved...", ofile.Name));
+						}
+						break;
+					case ProgramModeTypeEnum.InventorySummary:
+						Console.WriteLine(
+							"Mode: Create inventory summary report from project...");
+						JsonTemplateCollection.Parse(content, mProjectPath,
+							mConfigurations, mComponents, mTemplates);
+						tree.Configurations = mConfigurations;
+						tree.Components = mComponents;
+						tree.ProjectPath = mProjectPath;
+						tree.RenderedContent.Clear();
+						tree.InventorySummary(mTemplates);
 						if(tree.SaveFile(ofile))
 						{
 							Console.WriteLine(
@@ -346,6 +374,7 @@ namespace TargetScript
 						tree.Configurations = mConfigurations;
 						tree.Components = mComponents;
 						tree.ProjectPath = mProjectPath;
+						tree.Verbose = mVerbose;
 						foreach(TemplateItem template in mTemplates)
 						{
 							Console.WriteLine(
@@ -430,6 +459,21 @@ namespace TargetScript
 		public TemplateCollection Templates
 		{
 			get { return mTemplates; }
+		}
+		//*-----------------------------------------------------------------------*
+
+		//*-----------------------------------------------------------------------*
+		//*	Verbose																																*
+		//*-----------------------------------------------------------------------*
+		private bool mVerbose = false;
+		/// <summary>
+		/// Get/Set a value indicating whether actions will be logged to the
+		/// console on a verbose level.
+		/// </summary>
+		public bool Verbose
+		{
+			get { return mVerbose; }
+			set { mVerbose = value; }
 		}
 		//*-----------------------------------------------------------------------*
 
