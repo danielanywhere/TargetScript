@@ -12,7 +12,7 @@ Using TargetScript, you can work smarter and faster instead of working harder, w
 ## What is TargetScript?
 In as few words as possible, TargetScript is a processor for rendering highly abstracted inline templating statements.
 
-From a more relaxed user perspective, TargetScript like a set of JSON data files that have been organized in a certain way as to be readable by the TargetScript command-line utility. Most of this data defines the nature of the system through configuration settings and metadata, while a smaller part of it serves the purpose of defining specific behavior through interchangeable templates.
+From a more relaxed user perspective, TargetScript is like a set of JSON data files that have been organized in a certain way as to be readable by the TargetScript command-line utility. Most of this data defines the nature of the system through configuration settings and metadata, while a smaller part of it serves the purpose of defining specific behavior through interchangeable templates.
 
 When a set of data files are rendered by running TargetScript on them, finished documents are created in the process that can be used for any number of purposes. With version 1.0 of TargetScript, I show you examples of how the same metadata files are used several times to produce all of the source code files I need for constructing and compiling the entire _BankCore_ project listed elsewhere on my profile.
 
