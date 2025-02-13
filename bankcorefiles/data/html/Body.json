@@ -1,4 +1,0 @@
-[
-	"{Include(TabStrip.json)}",
-	"{Include(TabPanels.json)}"
-]
